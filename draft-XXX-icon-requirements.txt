@@ -16,6 +16,14 @@ Abstract
 
    TODO Abstract
 
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/QiufangMa/Agent-Control-and-Intervention-
+   Requirements.
+
 Status of This Memo
 
    This Internet-Draft is submitted in full conformance with the
@@ -51,10 +59,15 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Requirements
-   4.  Security Considerations
-   5.  IANA Considerations
-   6.  Normative References
+   3.  Existing Mechanisms for Agent Observability, Control, and
+           Intervention
+   4.  Requirements
+     4.1.  Observability Requirements
+     4.2.  Control Requirements
+     4.3.  Intervention Requirements
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -76,17 +89,44 @@ Table of Contents
 
    Intervention:  XX
 
-3.  Requirements
+3.  Existing Mechanisms for Agent Observability, Control, and
+    Intervention
 
-4.  Security Considerations
+4.  Requirements
+
+4.1.  Observability Requirements
+
+   OBS-1: XX  TBD
+
+   OBS-2: XX  TBD
+
+   OBS-3: XX  TBD
+
+4.2.  Control Requirements
+
+   CTL-1: XX  TBD
+
+   CTL-2: XX  TBD
+
+   CTL-3: XX  TBD
+
+4.3.  Intervention Requirements
+
+   INT-1: XX  TBD
+
+   INT-2: XX  TBD
+
+   INT-3: XX  TBD
+
+5.  Security Considerations
 
    TODO Security
 
-5.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-6.  Normative References
+7.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
