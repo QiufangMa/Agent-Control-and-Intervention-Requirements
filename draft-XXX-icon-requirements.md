@@ -41,8 +41,6 @@ normative:
 
 informative:
 
-...
-
 --- abstract
 
 TODO Abstract
@@ -68,7 +66,42 @@ Control:
 Intervention:
 : XX
 
+# Existing Mechanisms for Agent Observability, Control, and Intervention
+
 # Requirements
+
+## Observability Requirements
+
+OBS-1: XX
+: TBD
+
+OBS-2: XX
+: TBD
+
+OBS-3: XX
+: TBD
+
+## Control Requirements
+
+CTL-1: XX
+: TBD
+
+CTL-2: XX
+: TBD
+
+CTL-3: XX
+: TBD
+
+## Intervention Requirements
+
+INT-1: XX
+: TBD
+
+INT-2: XX
+: TBD
+
+INT-3: XX
+: TBD
 
 # Security Considerations
 
