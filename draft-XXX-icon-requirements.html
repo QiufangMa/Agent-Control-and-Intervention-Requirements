@@ -1208,12 +1208,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">This document defines the following terms:<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3">Control:
-:<a href="#section-2-3" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-2-4">
-        <dt id="section-2-4.1">Intervention:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-4.2">
-          <p id="section-2-4.2.1">XX<a href="#section-2-4.2.1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-3">
+        <dt id="section-2-3.1">Control:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.2">
+          <p id="section-2-3.2.1">Establish a deterministic operational boundary for the agent before execution. By pre-defining the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.3">Intervention:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.4">
+          <p id="section-2-3.4.1">A reactive, emergency action to intervene or take control of an agent with boundary violations, anomalies, failures, or risks, so as to block harmful decisions, disrupt hazards, and promptly mitigate losses.<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1224,7 +1227,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-existing-mechanisms-for-age">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-existing-mechanisms-for-age" class="section-name selfRef">Existing Mechanisms for Agent Observability, Control, and Intervention</a>
       </h2>
-<p id="section-3-1">Existing AI guardrails primarily operate at static boundaries, such as input validation, output filtering, and pre-action checks.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient for the full operational lifecycle—they often cannot detect, interrupt, and recover from unanticipated behaviours.<a href="#section-3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="requirements">
@@ -1238,19 +1241,24 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-observability-requirements" class="section-name selfRef">Observability Requirements</a>
         </h3>
 <span class="break"></span><dl class="dlParallel" id="section-4.1-1">
-          <dt id="section-4.1-1.1">OBS-1: XX</dt>
+          <dt id="section-4.1-1.1">OBS-1: Execution Trajectory Capture</dt>
           <dd style="margin-left: 1.5em" id="section-4.1-1.2">
-            <p id="section-4.1-1.2.1">TBD<a href="#section-4.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-1.2.1">The framework <span class="bcp14">MUST</span> support visibility into complete agent execution trajectories, including reasoning chain/chain-of-thought, actions plans, executed steps, and observations in specific format.<a href="#section-4.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.1-1.3">OBS-2: XX</dt>
+<dt id="section-4.1-1.3">OBS-2: Reasoning Provenance Capture</dt>
           <dd style="margin-left: 1.5em" id="section-4.1-1.4">
-            <p id="section-4.1-1.4.1">TBD<a href="#section-4.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-1.4.1">The framework <span class="bcp14">MUST</span> support visibility into reasoning provenance, including intent understanding, inference, confidence scores, evidence chains. Agents should expose why a decision was made, not only what action was taken.<a href="#section-4.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.1-1.5">OBS-3: XX</dt>
+<dt id="section-4.1-1.5">OBS-3: Metrics Collection</dt>
           <dd style="margin-left: 1.5em" id="section-4.1-1.6">
-            <p id="section-4.1-1.6.1">TBD<a href="#section-4.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-1.6.1">The framework <span class="bcp14">MUST</span> support collection of metrics characterizing agent operational health, including action execution latency, error rates, token consumption, resource usage, task completion rates, and confidence calibration.<a href="#section-4.1-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-1.7">OBS-4: Multi-Agent Correlation</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-1.8">
+            <p id="section-4.1-1.8.1">The framework <span class="bcp14">MUST</span> support logging and trace correlation across distributed multiple agent execution, supporting querying and analysis.<a href="#section-4.1-1.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1262,45 +1270,29 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-control-requirements" class="section-name selfRef">Control Requirements</a>
         </h3>
 <span class="break"></span><dl class="dlParallel" id="section-4.2-1">
-          <dt id="section-4.2-1.1">CTL-1: Access &amp; Permission Control</dt>
+          <dt id="section-4.2-1.1">CTL-1: Access and Permission Control</dt>
           <dd style="margin-left: 1.5em" id="section-4.2-1.2">
-            <p id="section-4.2-1.2.1">Define and enforce what the agent is allowed to access and operate. Assume if
-an agent cannot access a system, field, or tool, it cannot cause harm through it.<a href="#section-4.2-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-1.2.1">The framework must provide mechanisms to define and enforce what systems, skills, tools, and data fields an agent is permitted to access and operate.<a href="#section-4.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.2-1.3">CTL-2: Authorization and Approval Controls</dt>
+<dt id="section-4.2-1.3">CTL-2: Authorization and Approval Controls (Escalation)</dt>
           <dd style="margin-left: 1.5em" id="section-4.2-1.4">
-            <p id="section-4.2-1.4.1">Govern what actions require a human decision or quality checked before they execute.<a href="#section-4.2-1.4.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-1.4.1">The framework must support the designation of certain actions or decisions as requiring explicit human approval before execution.<a href="#section-4.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.2-1.5">CTL-3: Execution Integrity Controls</dt>
+<dt id="section-4.2-1.5">CTL-3: Temporal and Data/Context Validity</dt>
           <dd style="margin-left: 1.5em" id="section-4.2-1.6">
-            <p id="section-4.2-1.6.1">Ensure the agent executes tasks correctly in the right order, with expected outcomes.<a href="#section-4.2-1.6.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-1.6.1">The framework must ensure the agent is acting on current, accurate context.<a href="#section-4.2-1.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.2-1.7">CTL-4: Monitoring and Observability Controls</dt>
+<dt id="section-4.2-1.7">CTL-4: Trust and Integrity Protection</dt>
           <dd style="margin-left: 1.5em" id="section-4.2-1.8">
-            <p id="section-4.2-1.8.1">Maintain continuous visibility of agent behavior. Anomalies, Agent drift, and out-of-turn activity before they go beyond the recovery point.<a href="#section-4.2-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-1.8.1">The framework must protect the agent from adversarial manipulation, including integrity checks for agent decisions, provenance verification for tool outputs, and resistance against prompt injection or other adversarial inputs.<a href="#section-4.2-1.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.2-1.9">CTL-5: Temporal and Data/Context Validity Controls</dt>
+<dt id="section-4.2-1.9">CTL-5: Alignment and Calibration Control</dt>
           <dd style="margin-left: 1.5em" id="section-4.2-1.10">
-            <p id="section-4.2-1.10.1">Ensure the agent is acting on current, accurate context. Prevent staleness, deadline/metrics-driven shortcut by agent, and decisions based on a staled state.<a href="#section-4.2-1.10.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-4.2-1.11">CTL-6: Rollback and Recovery Controls</dt>
-          <dd style="margin-left: 1.5em" id="section-4.2-1.12">
-            <p id="section-4.2-1.12.1">Ensure that agent action footprint can be identified and reversed.<a href="#section-4.2-1.12.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-4.2-1.13">CTL-7: Trust and Security Controls</dt>
-          <dd style="margin-left: 1.5em" id="section-4.2-1.14">
-            <p id="section-4.2-1.14.1">Protect the agent pipeline from adversarial manipulation.<a href="#section-4.2-1.14.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-4.2-1.15">CTL-8: Alignment and Calibration Control</dt>
-          <dd style="margin-left: 1.5em" id="section-4.2-1.16">
-            <p id="section-4.2-1.16.1">Ensure the agent optimize for what the operator actually intends. Detect and correct divergence between the agent's measured objective, its world model, and the operational reality.<a href="#section-4.2-1.16.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-1.10.1">The framework must ensure the agent optimize for what the operator actually intends. Detect and correct divergence between the agent's measured objective, its world model, and the operational reality.<a href="#section-4.2-1.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1312,39 +1304,35 @@ an agent cannot access a system, field, or tool, it cannot cause harm through it
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-intervention-requirements" class="section-name selfRef">Intervention Requirements</a>
         </h3>
 <span class="break"></span><dl class="dlParallel" id="section-4.3-1">
-          <dt id="section-4.3-1.1">INT-1: Human in/on the loop</dt>
+          <dt id="section-4.3-1.1">INT-1: Execution Interruption</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-1.2">
-            <p id="section-4.3-1.2.1">Introduce human approval or monitoring into the execution path before the agent proceeds. Used when the agent encounters a decision that exceeds its authority, confidence, or validated operational context.<a href="#section-4.3-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-1.2.1">The operator must be able to stop or redirect a running agent. Emergency response from a temporary pause that preserves state (e.g., when operators needs time to assess before deciding further action) to a hard stop that terminates execution (e.g., when agent is actively causing damage) regardless of task progress.<a href="#section-4.3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-1.3">INT-2: Execution Interruption</dt>
+<dt id="section-4.3-1.3">INT-2: Containment</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-1.4">
-            <p id="section-4.3-1.4.1">Stop or redirect a running agent. Emergency response from a temporary pause that preserves state to a hard stop that terminates execution regardless of task progress.<a href="#section-4.3-1.4.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-1.4.1">The operator must be able to limit the extend of a failure (blast radius). Stop further harm from accumulating without necessarily reversing what has already occurred.<a href="#section-4.3-1.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-1.5">INT-3: Containment</dt>
+<dt id="section-4.3-1.5">INT-3: Rollback and Recovery</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-1.6">
-            <p id="section-4.3-1.6.1">Limit the extend of a failure (blast radius). Stop further harm from accumulating without necessarily reversing what has already occurred.<a href="#section-4.3-1.6.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-1.6.1">The operator must be able to reverse actions already taken by an agent. Can be a single transaction or a coordinated cross-system reversal of an entire multi-agent workflow.<a href="#section-4.3-1.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-1.7">INT-4: Rollback and Recovery</dt>
+<dt id="section-4.3-1.7">INT-4: Escalation</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-1.8">
-            <p id="section-4.3-1.8.1">Reverse agent actions already taken. Can be a single transaction or a coordinated cross-system reversal of an entire multi-agent workflow.<a href="#section-4.3-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-1.8.1">The operator must be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.<a href="#section-4.3-1.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-1.9">INT-5: Escalation</dt>
+<dt id="section-4.3-1.9">INT-5: Correction</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-1.10">
-            <p id="section-4.3-1.10.1">Route decisions, alerts, and conflicts to a higher authority. Used when the current level (human or agent) cannot (or should not) resolve the situation without supervision.<a href="#section-4.3-1.10.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-1.10.1">The operator must be able to correct failures by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.<a href="#section-4.3-1.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-1.11">INT-6: Audit</dt>
+<dt id="section-4.3-1.11">INT-6: Auditability and Accountability</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-1.12">
-            <p id="section-4.3-1.12.1">The post-failure capability that enables accountability, quantifies impact.<a href="#section-4.3-1.12.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-4.3-1.13">INT-7: Correction</dt>
-          <dd style="margin-left: 1.5em" id="section-4.3-1.14">
-            <p id="section-4.3-1.14.1">Correct failures by rectifying the agent's model, objective, or training distribution.<a href="#section-4.3-1.14.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-1.12.1">The framework <span class="bcp14">MUST</span> support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and tamper‑evident traceability from failure through intervention to recovery.
+The post-failure capability that enables accountability, quantifies impact.<a href="#section-4.3-1.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
