@@ -1,5 +1,5 @@
 ---
-title: "Reuqirements for Observability, Control and Intervention of Network Management Agents"
+title: "Requirements for Observability, Control and Intervention of Network Management Agents"
 abbrev: "icon requirements"
 category: info
 
@@ -43,16 +43,23 @@ informative:
 
 --- abstract
 
-TODO Abstract
+This document defines a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
+
+It identifies gaps in existing mechanisms and specifies required interaction capabilities between humans (or other agent supervision systems) and network management agents across multi-vendor environments, specifically observability, control, and run-time intervention. The requirements aim to mitigate agent unreliability and hallucination issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
 
 
 --- middle
 
 # Introduction
 
-Agentic operations are opaque.
+AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg-agent-ndt-arch}} — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network mangement, it also inevitably bring challengs such as hallucination and unreliability.
 
-This document defines requirements for ICON: Observability, Control, and Intervention for Network Management Agents.
+Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation/task allowlists/blocklists, pre-action approval), while assume that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.
+
+This document defines requirements for ICON — Intervention, Control, and Observability for Network Management Agents.  It emphasizes three essential requirements that operators need when deploying agents in real networks for agent observability, control, and intervention.
+
+
+This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.
 
 # Conventions and Definitions
 
@@ -60,6 +67,9 @@ This document defines requirements for ICON: Observability, Control, and Interve
 
 
  This document defines the following terms:
+
+Observability:
+: Allow the visibility into an agent's internal state from its external outputs (e.g., logs, traces, metrics), enabling human operators or monitoring systems to understand what the agent is doing and why.
 
 Control:
 : Establish a deterministic operational boundary for the agent before execution. By pre-defining the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
