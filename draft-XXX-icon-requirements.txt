@@ -5,7 +5,7 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                     Q. Wu
 Intended status: Informational                                    Huawei
-Expires: 19 November 2026                                    18 May 2026
+Expires: 20 November 2026                                    19 May 2026
 
 
   Requirements for Observability, Control and Intervention of Network
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 November 2026.
+   This Internet-Draft will expire on 20 November 2026.
 
 Copyright Notice
 
@@ -90,21 +90,22 @@ Table of Contents
    network configuration change, service assurance and automated
    incident diagnosis and resolution.  While the introduction of agents
    significantly improves the efficiency for network mangement, it also
-   inevitably bring challengs such as hallucination and unreliability.
+   inevitably brings challengs such as hallucination and exection
+   unreliability.
 
    Existing mechanisms for agent assurance typically rely on static
-   guardrails (e.g., input/output validation, operation/task allowlists/
-   blocklists, pre-action approval), while assume that all agent failure
-   modes can be predefined.  Unlike deterministic software systems,
-   however, LLM-based agents exhibit emergent behaviors that cannot be
-   fully anticipated or encoded in static rules.  When agentic systems
-   produce novel actions or reasoning paths that fall outside predefined
-   static boundaries, it might lead to risks such as unintended
-   configuration changes, policy violations, or cascading failures in
-   the network.
+   guardrails (e.g., input/output validation, operation allowlists/
+   blocklists, pre-action approval), while assuming that all agent
+   failure modes can be predefined.  Unlike deterministic software
+   systems, however, LLM-based agents exhibit emergent behaviors that
+   cannot be fully anticipated or encoded in static rules.  When agentic
+   systems produce novel actions or reasoning paths that fall outside
+   predefined static boundaries, it might lead to risks such as
+   unintended configuration changes, policy violations, or cascading
+   failures in the network.
 
    This document defines requirements for ICON — Intervention, Control,
-   and Observability for Network Management Agents.  It emphasizes three
+   and Observability for Network Management Agents.  It emphasizes
    essential requirements that operators need when deploying agents in
    real networks for agent observability, control, and intervention.
 
@@ -122,10 +123,11 @@ Table of Contents
 
    This document defines the following terms:
 
-   Observability:  Allow the visibility into an agent's internal state
-      from its external outputs (e.g., logs, traces, metrics), enabling
-      human operators or monitoring systems to understand what the agent
-      is doing and why.
+   Observability:  The visibility into an agent's internal state,
+      decision-making logic, and workflow execution from its external
+      telemetry outputs (e.g., logs, traces, metrics), enabling human
+      operators or monitoring systems to understand what the agent is
+      doing and why it behaves in a specific manner.
 
    Control:  Establish a deterministic operational boundary for the
       agent before execution.  By pre-defining the agent's behavior
@@ -140,15 +142,36 @@ Table of Contents
 3.  Existing Mechanisms for Agent Observability, Control, and
     Intervention
 
+   After receiving a user request, agents will perform a chain-of-
+   thought (CoT) reasoning process, then it will autonomously decide
+   whether to break down the task into subtasks, or dynamically decide
+   to invoke multiple external tools, retrieve vector databases (RAG),
+   or request more information from the user.  Existing telemetry
+   mechanisms are excellent for tracking traditional network
+   infrastructure or software which are built for deterministic systems.
+   However, they are facing severe limitations when applied to AI
+   agents.  For example, existing logging practices only record what
+   action was taken, completely missing why it was taken, including the
+   agent's internal reasoning provenance and confidence scores. existing
+   tracing mechanism designed for static and linear execution path also
+   cannot capture the complex and dynamic execution trajectories of AI
+   agents.
+
    Existing AI guardrails primarily operate at static boundaries, such
    as input/output validation and pre-action checks.  These mechanisms
    are designed to constrain AI agents within predefined operational and
    compliance boundaries, but they assume that all possible violations
    can be anticipated and encoded in static rules.  As AI systems
    increasingly operate in non-deterministic environments, these static
-   measures are proving insufficient for the full operational
-   lifecycle—they often cannot detect, interrupt, and recover from
-   unanticipated behaviours.
+   measures are proving insufficient as they cannot detect, interrupt,
+   and recover from unanticipated behaviours.
+
+   Although there are some modern agent systems that provide interrupt
+   or kill switch capabilities, they remain framework-specific,
+   insufficient, or proprietary.
+
+   These gaps motivate the requirements for agent observability,
+   control, and intervention defined in Section 4.
 
 4.  Requirements
 
