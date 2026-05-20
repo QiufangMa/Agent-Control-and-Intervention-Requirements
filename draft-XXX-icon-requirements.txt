@@ -5,7 +5,7 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                     Q. Wu
 Intended status: Informational                                    Huawei
-Expires: 20 November 2026                                    19 May 2026
+Expires: 21 November 2026                                    20 May 2026
 
 
   Requirements for Observability, Control and Intervention of Network
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 November 2026.
+   This Internet-Draft will expire on 21 November 2026.
 
 Copyright Notice
 
@@ -247,12 +247,12 @@ Table of Contents
       modifying an agent's pending action, planned sequence, or internal
       state before execution proceeds.
 
-   INT-6: Auditability and Accountability  The framework MUST support
+   INT-6: Auditability and Accountability  The framework must support
       attribution of failures to responsible entities (e.g., agents,
       humans, or systems), quantification of consequences (e.g.,
-      resource impact, downtime, cost), and tamper-evident traceability
-      from failure through intervention to recovery.  The post-failure
-      capability that enables accountability, quantifies impact.
+      resource impact, downtime, cost), and traceability from failure
+      through intervention to recovery.  The post-failure capability
+      that enables accountability, quantifies impact.
 
 5.  Security Considerations
 
