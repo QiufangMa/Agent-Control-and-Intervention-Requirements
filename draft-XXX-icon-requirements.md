@@ -137,7 +137,7 @@ INT-5: Correction
 : The operator must be able to correct failures by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.
 
 INT-6: Auditability and Accountability
-: The framework MUST support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and tamper‑evident traceability from failure through intervention to recovery.
+: The framework must support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and traceability from failure through intervention to recovery.
 The post-failure capability that enables accountability, quantifies impact.
 
 # Security Considerations
