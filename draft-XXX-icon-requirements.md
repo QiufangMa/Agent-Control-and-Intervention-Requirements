@@ -52,7 +52,7 @@ It identifies gaps in existing mechanisms and specifies required interaction cap
 
 # Introduction
 
-AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg-agent-ndt-arch}} — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network mangement, it also inevitably brings challengs such as hallucination and exection unreliability.
+AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg-agent-ndt-arch}} — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network management, it also inevitably brings challenges such as hallucination and execution unreliability.
 
 Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.
 
@@ -78,7 +78,7 @@ Intervention:
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
-After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the user. Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
+After receiving a user request, agents will perform a Chain-of-Thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the user. Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
 
 Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviours.
 
@@ -105,40 +105,40 @@ OBS-4: Multi-Agent Correlation
 ## Control Requirements
 
 CTL-1: Access and Permission Control
-: The framework must provide mechanisms to define and enforce what systems, skills, tools, and data fields an agent is permitted to access and operate.
+: The framework MUST provide mechanisms to define and enforce what systems, skills, tools, and data fields an agent is permitted to access and operate.
 
 CTL-2: Authorization and Approval Controls (Escalation)
-: The framework must support the designation of certain actions or decisions as requiring explicit human approval before execution.
+: The framework MUST support the designation of certain actions or decisions as requiring explicit human approval before execution.
 
 CTL-3: Temporal and Data/Context Validity
-: The framework must ensure the agent is acting on current, accurate context.
+: The framework MUST ensure the agent is acting on current, accurate context.
 
 CTL-4: Trust and Integrity Protection
-: The framework must protect the agent from adversarial manipulation, including integrity checks for agent decisions, provenance verification for tool outputs, and resistance against prompt injection or other adversarial inputs.
+: The framework MUST protect the agent from adversarial manipulation, including integrity checks for agent decisions, provenance verification for tool outputs, and resistance against prompt injection or other adversarial inputs.
 
 CTL-5: Alignment and Calibration Control
-: The framework must ensure the agent optimize for what the operator actually intends. Detect and correct divergence between the agent's measured objective, its world model, and the operational reality.
+: The framework MUST ensure the agent optimize for what the operator actually intends. Detect and correct divergence between the agent's measured objective, its world model, and the operational reality.
 
 ## Intervention Requirements
 
 INT-1: Execution Interruption
-: The operator must be able to stop or redirect a running agent. Emergency response from a temporary pause that preserves state (e.g., when operators needs time to assess before deciding further action) to a hard stop that terminates execution (e.g., when agent is actively causing damage) regardless of task progress.
+: The operator MUST be able to stop or redirect a running agent. Emergency response from a temporary pause that preserves state (e.g., when operators needs time to assess before deciding further action) to a hard stop that terminates execution (e.g., when agent is actively causing damage) regardless of task progress.
 
 INT-2: Containment
-: The operator must be able to limit the extend of a failure (blast radius). Stop further harm from accumulating without necessarily reversing what has already occurred.
+: The operator MUST be able to limit the extent of a failure (impact scope). Stop further harm from accumulating without necessarily reversing what has already occurred.
 
 INT-3: Rollback and Recovery
-: The operator must be able to reverse actions already taken by an agent. Can be a single transaction or a coordinated cross-system reversal of an entire multi-agent workflow.
+: The operator MUST be able to reverse actions already taken by an agent. Can be a single transaction or a coordinated cross-system reversal of an entire multi-agent workflow.
 
 INT-4: Escalation
-: The operator must be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.
+: The operator MUST be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.
 
 INT-5: Correction
-: The operator must be able to correct failures by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.
+: The operator MUST be able to correct failures by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.
 
 INT-6: Auditability and Accountability
-: The framework must support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and traceability from failure through intervention to recovery.
-The post-failure capability that enables accountability, quantifies impact.
+: The framework MUST support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and traceability from failure through intervention to recovery.
+This post-failure capability MUST enable accountability and quantify operational impact.
 
 # Security Considerations
 
