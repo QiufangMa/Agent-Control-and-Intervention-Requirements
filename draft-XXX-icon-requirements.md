@@ -142,8 +142,11 @@ The post-failure capability that enables accountability, quantifies impact.
 
 # Security Considerations
 
-TODO Security
+Autonomous agents deployed in network environments introduce specific security vectors that MUST be addressed by implementations of this framework:
 
+1. Indirect Prompt Injection: Agents consuming dynamic network data (e.g., untrusted syslog data, BGP path attributes, or multi-vendor interface descriptions) are vulnerable to indirect prompt injection. Attackers could craft malicious telemetry inputs designed to hijack the agent's CoT reasoning, forcing the agent to issue unauthorized configuration changes.
+2. Privilege Escalation via Tool Abuse: If an agent is granted broad execution permissions (e.g., full NETCONF/RESTCONF write capabilities), any semantic hallucination or malicious hijack could cause widespread outages. Implementations MUST enforce the Principle of Least Privilege (PoLP) on all agent-bound tools and interfaces.
+3. Management Plane Denial of Service:A malfunctioning or hijacked agent caught in an infinite loop of planning or encountering a "multi-agent reflection cascade" could flood the network with continuous telemetry queries or API calls, leading to a denial of service on the network management plane.
 
 # IANA Considerations
 
