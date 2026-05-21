@@ -58,6 +58,8 @@ Existing mechanisms for agent assurance typically rely on static guardrails (e.g
 
 This document defines requirements for ICON — Intervention, Control, and Observability for Network Management Agents. It emphasizes essential requirements that operators need when deploying agents in real networks for agent observability, control, and intervention.
 
+This document specifies the communication requirements between the agent and the supervision system. It does not standardized the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
+
 This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.
 
 # Conventions and Definitions
