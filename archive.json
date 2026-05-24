@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-21T03:39:34.498052+00:00",
+  "timestamp": "2026-05-24T03:34:30.908703+00:00",
   "repo": "QiufangMa/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -50,5 +50,126 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOScGbnM7d0psx",
+      "title": "Fix typos and use RFC 2119 language",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/pull/1",
+      "state": "MERGED",
+      "author": "Yuanyuan4666",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "grammar correction",
+      "createdAt": "2026-05-21T06:46:52Z",
+      "updatedAt": "2026-05-21T10:41:16Z",
+      "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "53a2a4a1df4bbdc95dae11ed64f3c07cfd0d6aec",
+      "headRepository": "Yuanyuan4666/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "patch-1",
+      "headRefOid": "c1dc06d519dc778ed62c84a014f14691da89b473",
+      "closedAt": "2026-05-21T10:41:16Z",
+      "mergedAt": "2026-05-21T10:41:16Z",
+      "mergedBy": "QiufangMa",
+      "mergeCommit": {
+        "oid": "5b0e5d80870946056ada8841ff74ec1fbf728a77"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOScGbnM8AAAABAnSwyw",
+          "commit": {
+            "abbreviatedOid": "c1dc06d"
+          },
+          "author": "QiufangMa",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-21T10:41:03Z",
+          "updatedAt": "2026-05-21T10:41:03Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOScGbnM7d0rIa",
+      "title": "Update draft-XXX-icon-requirements.md",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/pull/2",
+      "state": "OPEN",
+      "author": "Yuanyuan4666",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "confirm SUT",
+      "createdAt": "2026-05-21T06:48:11Z",
+      "updatedAt": "2026-05-21T06:48:12Z",
+      "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "53a2a4a1df4bbdc95dae11ed64f3c07cfd0d6aec",
+      "headRepository": "Yuanyuan4666/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "patch-2",
+      "headRefOid": "c7e5f9978d923d71a16a8defff05c837e88bda00",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOScGbnM7d0res",
+      "title": "Update draft-XXX-icon-requirements.md",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/pull/3",
+      "state": "OPEN",
+      "author": "Yuanyuan4666",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "introduce definition of supervisor-->avoid mixed use of humans, human operators, monitoring systems, operator",
+      "createdAt": "2026-05-21T06:48:27Z",
+      "updatedAt": "2026-05-21T06:48:27Z",
+      "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "53a2a4a1df4bbdc95dae11ed64f3c07cfd0d6aec",
+      "headRepository": "Yuanyuan4666/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "patch-3",
+      "headRefOid": "cacd3f4b8a798e54a5619dc2373b13e59e044289",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOScGbnM7d0sdD",
+      "title": "Update draft-XXX-icon-requirements.md",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/pull/4",
+      "state": "OPEN",
+      "author": "Yuanyuan4666",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "consider security considerations from three aspects\uff1a1.indirect prompt injection 2. problem from CLT privilege escalation 3.infinite loop",
+      "createdAt": "2026-05-21T06:49:17Z",
+      "updatedAt": "2026-05-21T06:49:18Z",
+      "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "53a2a4a1df4bbdc95dae11ed64f3c07cfd0d6aec",
+      "headRepository": "Yuanyuan4666/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "patch-4",
+      "headRefOid": "e3a5cb70c2180e9141d8e8d8231b49df1570489d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
