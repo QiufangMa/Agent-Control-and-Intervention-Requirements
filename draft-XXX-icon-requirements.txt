@@ -3,9 +3,12 @@
 
 
 Network Working Group                                         Q. Ma, Ed.
-Internet-Draft                                                     Q. Wu
-Intended status: Informational                                    Huawei
-Expires: 22 November 2026                                    21 May 2026
+Internet-Draft                                                    Huawei
+Intended status: Informational                             D. Ceccarelli
+Expires: 1 December 2026                                           Cisco
+                                                                   Q. Wu
+                                                                  Huawei
+                                                             30 May 2026
 
 
   Requirements for Observability, Control and Intervention of Network
@@ -22,9 +25,8 @@ Abstract
    systems) and network management agents across multi-vendor
    environments, specifically observability, control, and run-time
    intervention.  The requirements aim to mitigate agent unreliability
-   and hallucination issues, and to minimize the negative impacts that
-   agents might cause to networks when they deviate from expected
-   behaviors.
+   issues, and to minimize the negative impacts that agents might cause
+   to networks when they deviate from expected behaviors.
 
 Discussion Venues
 
@@ -49,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 November 2026.
+   This Internet-Draft will expire on 1 December 2026.
 
 Copyright Notice
 
@@ -129,15 +131,17 @@ Table of Contents
       operators or monitoring systems to understand what the agent is
       doing and why it behaves in a specific manner.
 
-   Control:  Establish a deterministic operational boundary for the
-      agent before execution.  By pre-defining the agent's behavior
-      scopes, operational constraints, and security baselines, it
-      fundamentally mitigates abnormal behaviors from agents.
+   Control:  A preventive mechanism that establishs a deterministic
+      operational boundary for the agent before and during agent
+      execution.  By specifying the agent's behavior scopes, operational
+      constraints, and security baselines, it fundamentally mitigates
+      abnormal behaviors from agents.
 
-   Intervention:  A reactive, emergency action to intervene or take
-      control of an agent with boundary violations, anomalies, failures,
-      or risks, so as to block harmful decisions, disrupt hazards, and
-      promptly mitigate losses.
+   Intervention:  A reactive and emergency mechanism to intervene or
+      take control of an agent with boundary violations, anomalies,
+      failures, or risks, so as to block harmful decisions, disrupt
+      hazards, and promptly mitigate losses.  It addresses situations
+      where agent control is insufficient, bypassed, or inapplicable.
 
 3.  Existing Mechanisms for Agent Observability, Control, and
     Intervention
@@ -199,26 +203,35 @@ Table of Contents
 
 4.2.  Control Requirements
 
-   CTL-1: Access and Permission Control  The framework MUST provide
-      mechanisms to define and enforce what systems, skills, tools, and
-      data fields an agent is permitted to access and operate.
+   CTL-1: Access and Permission  The framework MUST provide mechanisms
+      to define and enforce what systems, actions, skills, tools, data
+      fields, and network domain an agent is permitted to access and
+      operate.
 
-   CTL-2: Authorization and Approval Controls (Escalation)  The
-      framework MUST support the designation of certain actions or
-      decisions as requiring explicit human approval before execution.
+   CTL-2: Intent Validation and Alignment  The framework MUST ensure the
+      agent validate intents from the operator or other agents before
+      execution.  It MUST also ensure the agent optimize for what the
+      operator actually intends.
 
    CTL-3: Temporal and Data/Context Validity  The framework MUST ensure
-      the agent is acting on current, accurate context.
+      the agent is acting within authorized time windows and under valid
+      operational conditions such as accurate context and data.
 
-   CTL-4: Trust and Integrity Protection  The framework MUST protect the
-      agent from adversarial manipulation, including integrity checks
-      for agent decisions, provenance verification for tool outputs, and
-      resistance against prompt injection or other adversarial inputs.
+   CTL-4: Resource Usage Restrictions  The framework MUST enforce limits
+      on resource consumption of agents running.  Resource dimensions
+      include at least CPU, memory, and persistent storage.
 
-   CTL-5: Alignment and Calibration Control  The framework MUST ensure
-      the agent optimize for what the operator actually intends.  Detect
-      and correct divergence between the agent's measured objective, its
-      world model, and the operational reality.
+   CTL-5: Authorization and Approval (Escalation)  The framework MUST
+      support the designation of certain actions or decisions as
+      requiring explicit human approval before execution.  It SHOULD
+      also support configurable escalation chain and communication
+      methods/channels to route approval requests sequentially to
+      designated personnel.
+
+   CTL-6: Failure and Liveness  The framework MUST allow specifying
+      agent behaviors when encountering predefined failure modes and
+      enable agents to periodically report their liveness status for
+      health monitoring.
 
 4.3.  Intervention Requirements
 
@@ -238,12 +251,12 @@ Table of Contents
       a coordinated cross-system reversal of an entire multi-agent
       workflow.
 
-   INT-4: Escalation  The operator MUST be able to route decisions,
-      alerts, and conflicts to a higher authority.  Used when the
-      current level cannot (or should not) resolve the situation without
-      supervision.
+   INT-4: Escalation  The operator/agent MUST be able to route
+      decisions, alerts, and conflicts to a higher authority.  Used when
+      the current level cannot (or should not) resolve the situation
+      without supervision.
 
-   INT-5: Correction  The operator MUST be able to correct failures by
+   INT-5: Correction  The operator MUST be able to correct deviations by
       modifying an agent's pending action, planned sequence, or internal
       state before execution proceeds.
 
@@ -281,9 +294,9 @@ Table of Contents
               Wu, Q., Zhou, C., Contreras, L. M., Han, S., and Y. Hong,
               "Network Digital Twin and Agentic AI based Architecture
               for AI driven Network Operations", Work in Progress,
-              Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-03, 23
-              February 2026, <https://datatracker.ietf.org/doc/html/
-              draft-wmz-nmrg-agent-ndt-arch-03>.
+              Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-04, 21 May
+              2026, <https://datatracker.ietf.org/doc/html/draft-wmz-
+              nmrg-agent-ndt-arch-04>.
 
 Acknowledgments
 
@@ -298,6 +311,11 @@ Authors' Addresses
    210012
    China
    Email: maqiufang1@huawei.com
+
+
+   Daniele Ceccarelli
+   Cisco
+   Email: dceccare@cisco.com
 
 
    Qin Wu
