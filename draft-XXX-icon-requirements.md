@@ -28,6 +28,10 @@ author:
    country: China
    email: maqiufang1@huawei.com
 -
+   fullname: Daniele Ceccarelli
+   organization: Cisco
+   email: dceccare@cisco.com
+-
    fullname: Qin Wu
    organization: Huawei
    street: 101 Software Avenue, Yuhua District
@@ -45,7 +49,7 @@ informative:
 
 This document defines a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
 
-It identifies gaps in existing mechanisms and specifies required interaction capabilities between humans (or other agent supervision systems) and network management agents across multi-vendor environments, specifically observability, control, and run-time intervention. The requirements aim to mitigate agent unreliability and hallucination issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
+It identifies gaps in existing mechanisms and specifies required interaction capabilities between humans (or other agent supervision systems) and network management agents across multi-vendor environments, specifically observability, control, and run-time intervention. The requirements aim to mitigate agent unreliability issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
 
 
 --- middle
@@ -71,10 +75,10 @@ Observability:
 : The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling human operators or monitoring systems to understand what the agent is doing and why it behaves in a specific manner.
 
 Control:
-: Establish a deterministic operational boundary for the agent before execution. By pre-defining the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
+: A preventive mechanism that establishs a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
 
 Intervention:
-: A reactive, emergency action to intervene or take control of an agent with boundary violations, anomalies, failures, or risks, so as to block harmful decisions, disrupt hazards, and promptly mitigate losses.
+: A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks, so as to block harmful decisions, disrupt hazards, and promptly mitigate losses. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
@@ -104,20 +108,24 @@ OBS-4: Multi-Agent Correlation
 
 ## Control Requirements
 
-CTL-1: Access and Permission Control
-: The framework MUST provide mechanisms to define and enforce what systems, skills, tools, and data fields an agent is permitted to access and operate.
+CTL-1: Access and Permission
+: The framework MUST provide mechanisms to define and enforce what systems, actions, skills, tools, data fields, and network domain an agent is permitted to access and operate.
 
-CTL-2: Authorization and Approval Controls (Escalation)
-: The framework MUST support the designation of certain actions or decisions as requiring explicit human approval before execution.
+CTL-2: Intent Validation and Alignment
+: The framework MUST ensure the agent validate intents from the operator or other agents before execution. It MUST also ensure the agent optimize for what the operator actually intends.
 
 CTL-3: Temporal and Data/Context Validity
-: The framework MUST ensure the agent is acting on current, accurate context.
+: The framework MUST ensure the agent is acting within authorized time windows and under valid operational conditions such as accurate context and data.
 
-CTL-4: Trust and Integrity Protection
-: The framework MUST protect the agent from adversarial manipulation, including integrity checks for agent decisions, provenance verification for tool outputs, and resistance against prompt injection or other adversarial inputs.
+CTL-4: Resource Usage Restrictions
+: The framework MUST enforce limits on resource consumption of agents running. Resource dimensions include at least CPU, memory, and persistent storage.
 
-CTL-5: Alignment and Calibration Control
-: The framework MUST ensure the agent optimize for what the operator actually intends. Detect and correct divergence between the agent's measured objective, its world model, and the operational reality.
+CTL-5: Authorization and Approval (Escalation)
+: The framework MUST support the designation of certain actions or decisions as requiring explicit human approval before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route approval requests sequentially to designated personnel.
+
+CTL-6: Failure and Liveness
+: The framework MUST allow specifying agent behaviors when encountering predefined failure modes and enable agents to periodically report their liveness status for health monitoring.
+
 
 ## Intervention Requirements
 
@@ -131,10 +139,10 @@ INT-3: Rollback and Recovery
 : The operator MUST be able to reverse actions already taken by an agent. Can be a single transaction or a coordinated cross-system reversal of an entire multi-agent workflow.
 
 INT-4: Escalation
-: The operator MUST be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.
+: The operator/agent MUST be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.
 
 INT-5: Correction
-: The operator MUST be able to correct failures by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.
+: The operator MUST be able to correct deviations by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.
 
 INT-6: Auditability and Accountability
 : The framework MUST support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and traceability from failure through intervention to recovery.
