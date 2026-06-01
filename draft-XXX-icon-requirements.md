@@ -72,13 +72,13 @@ This document does not specify a particular protocol, data model, or implementat
  This document defines the following terms:
 
 Observability:
-: The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling human operators or monitoring systems to understand what the agent is doing and why it behaves in a specific manner.
+: The visibility into an agent's internal state, decision-making logic, and workflow execution, enabling human operators or monitoring systems to understand what the agent is doing and why it behaves in a specific manner.
 
 Control:
-: A preventive mechanism that establishs a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
+: A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
 
 Intervention:
-: A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks, so as to block harmful decisions, disrupt hazards, and promptly mitigate losses. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
+: A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
@@ -117,13 +117,10 @@ CTL-2: Intent Validation and Alignment
 CTL-3: Temporal and Data/Context Validity
 : The framework MUST ensure the agent is acting within authorized time windows and under valid operational conditions such as accurate context and data.
 
-CTL-4: Resource Usage Restrictions
-: The framework MUST enforce limits on resource consumption of agents running. Resource dimensions include at least CPU, memory, and persistent storage.
-
-CTL-5: Authorization and Approval (Escalation)
+CTL-4: Authorization and Approval (Escalation)
 : The framework MUST support the designation of certain actions or decisions as requiring explicit human approval before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route approval requests sequentially to designated personnel.
 
-CTL-6: Failure and Liveness
+CTL-5: Failure and Liveness
 : The framework MUST allow specifying agent behaviors when encountering predefined failure modes and enable agents to periodically report their liveness status for health monitoring.
 
 
