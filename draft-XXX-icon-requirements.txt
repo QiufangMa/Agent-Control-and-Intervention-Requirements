@@ -5,10 +5,10 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 3 December 2026                                           Cisco
+Expires: 11 December 2026                                          Cisco
                                                                    Q. Wu
                                                                   Huawei
-                                                             1 June 2026
+                                                             9 June 2026
 
 
   Requirements for Observability, Control and Intervention of Network
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 December 2026.
+   This Internet-Draft will expire on 11 December 2026.
 
 Copyright Notice
 
@@ -181,8 +181,8 @@ Table of Contents
 
    OBS-1: Execution Trajectory Capture  The framework MUST support
       visibility into complete agent execution trajectories, including
-      reasoning chain/chain-of-thought, actions plans, executed steps,
-      and observations in specific format.
+      reasoning chain/chain-of-thought, actions planning, executed
+      steps, and observations in specific format.
 
    OBS-2: Reasoning Provenance Capture  The framework MUST support
       visibility into reasoning provenance, including intent
@@ -263,7 +263,15 @@ Table of Contents
 
 5.  Security Considerations
 
-   TODO Security
+   This document defines a set of functional requirements for
+   observability, control, and intervention of AI agents in the context
+   of network management.
+
+   The requirements themselves do not introduce additional security
+   vulnerabilities.  Rather, this document requirements some security
+   safeguards such as access control, identity authentication, and
+   integrity guarantees that should be enforced by the implementation
+   and deployed systems.
 
 6.  IANA Considerations
 
