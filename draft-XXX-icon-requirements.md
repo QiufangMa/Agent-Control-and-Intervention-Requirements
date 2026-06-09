@@ -95,7 +95,7 @@ These gaps motivate the requirements for agent observability, control, and inter
 ## Observability Requirements
 
 OBS-1: Execution Trajectory Capture
-: The framework MUST support visibility into complete agent execution trajectories, including reasoning chain/chain-of-thought, actions plans, executed steps, and observations in specific format.
+: The framework MUST support visibility into complete agent execution trajectories, including reasoning chain/chain-of-thought, actions planning, executed steps, and observations in specific format.
 
 OBS-2: Reasoning Provenance Capture
 : The framework MUST support visibility into reasoning provenance, including intent understanding, inference, confidence scores, evidence chains. Agents should expose why a decision was made, not only what action was taken.
@@ -147,8 +147,9 @@ This post-failure capability MUST enable accountability and quantify operational
 
 # Security Considerations
 
-TODO Security
+This document defines a set of functional requirements for observability, control, and intervention of AI agents in the context of network management.
 
+The requirements themselves do not introduce additional security vulnerabilities. Rather, this document requirements some security safeguards such as access control, identity authentication, and integrity guarantees that should be enforced by the implementation and deployed systems.
 
 # IANA Considerations
 
