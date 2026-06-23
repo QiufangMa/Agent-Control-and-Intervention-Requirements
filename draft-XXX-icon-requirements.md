@@ -28,6 +28,10 @@ author:
    country: China
    email: maqiufang1@huawei.com
 -
+   fullname: Daniele Ceccarelli
+   organization: Cisco
+   email: dceccare@cisco.com
+-
    fullname: Qin Wu
    organization: Huawei
    street: 101 Software Avenue, Yuhua District
@@ -48,15 +52,18 @@ This document defines a set of requirements for ICON (Observability, Control, an
 It identifies gaps in existing mechanisms and specifies required interaction capabilities between supervisors (e.g., human operators or automated agent supervision systems) and network management agents across multi-vendor environments, specifically observability, control, and run-time intervention. The requirements aim to mitigate agent unreliability and hallucination issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
 
 
+
 --- middle
 
 # Introduction
 
-AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg-agent-ndt-arch}} — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network mangement, it also inevitably brings challengs such as hallucination and exection unreliability.
+AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg-agent-ndt-arch}} — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network management, it also inevitably brings challenges such as hallucination and execution unreliability.
 
 Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.
 
 This document defines requirements for ICON — Intervention, Control, and Observability for Network Management Agents. It emphasizes essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention.
+
+This document specifies the communication requirements between the agent and the supervision system. It does not standardized the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
 
 This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.
 
@@ -70,11 +77,12 @@ This document does not specify a particular protocol, data model, or implementat
 Observability:
 : The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling a supervisor to understand what the agent is doing and why it behaves in a specific manner.
 
+
 Control:
-: Establish a deterministic operational boundary for the agent before execution. By pre-defining the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
+: A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
 
 Intervention:
-: A reactive, emergency action to intervene or take control of an agent with boundary violations, anomalies, failures, or risks, so as to block harmful decisions, disrupt hazards, and promptly mitigate losses.
+: A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
 Supervisor:
 :The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege governance system, or an orchestrator.
@@ -89,12 +97,56 @@ Although there are some modern agent systems that provide interrupt or kill swit
 
 These gaps motivate the requirements for agent observability, control, and intervention defined in {{requirements}}.
 
+# Architecture
+
+to be completed...
+
+~~~~
++------------------------------------------------------+
+|                                                      |
+|                    Human Oversight                   |
+|                                                      |
++----------------^------+----------+--------------+----+
+ Agent Escalation|      |Policy    |Intervention  |Audit
+ /Approval       |      |Injection |Command       |
+ +---------------+------v----------v--------------v----+
+ |                                                     |
+ |                Agent Management Plane               |
+ |                                                     |
+ | +---------------+ +--------------++--------------+  |
+ | | Observability | |   Control    || Intervention |  |
+ | +------^--------+ +------+-------++-------+------+  |
+ |        |                 |                |         |
+ +--------+-----------------+----------------+---------+
+          |                 |                |
+     Telemetry    Static Guardrails  Real-time Instruction
+          |                 |                |
+  +-------+-----------------v----------------v---------+
+  |Agent Execution Plane                               |
+  | +-----------+    +-----------+       +-----------+ |
+  | |           |    |           |       |           | |
+  | |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
+  | |           |    |           |       |           | |
+  | +-----^-----+    +-----^-----+       +-----^-----+ |
+  |       |                |                   |       |
+  | +-----v----------------v-------------------v-----+ |
+  | |              Function Modules & Tools          | |
+  | +------------------------------------------------+ |
+  +-------------------------^--------------------------+
+                            |
+                            | Interaction
+                            |
+  +-------------------------v--------------------------+
+  |             Network Infrastructure                 |
+  +----------------------------------------------------+
+~~~~
+
 # Requirements {#requirements}
 
 ## Observability Requirements
 
 OBS-1: Execution Trajectory Capture
-: The framework MUST support visibility into complete agent execution trajectories, including reasoning chain/chain-of-thought, actions plans, executed steps, and observations in specific format.
+: The framework MUST support visibility into complete agent execution trajectories, including reasoning chain/chain-of-thought, actions planning, executed steps, and observations in specific format.
 
 OBS-2: Reasoning Provenance Capture
 : The framework MUST support visibility into reasoning provenance, including intent understanding, inference, confidence scores, evidence chains. Agents should expose why a decision was made, not only what action was taken.
@@ -107,20 +159,21 @@ OBS-4: Multi-Agent Correlation
 
 ## Control Requirements
 
-CTL-1: Access and Permission Control
-: The framework must provide mechanisms to define and enforce what systems, skills, tools, and data fields an agent is permitted to access and operate.
+CTL-1: Access and Permission
+: The framework MUST provide mechanisms to define and enforce what systems, actions, skills, tools, data fields, and network domain an agent is permitted to access and operate.
 
-CTL-2: Authorization and Approval Controls (Escalation)
-: The framework must support the designation of certain actions or decisions as requiring explicit supervisor approval before execution.
+CTL-2: Intent Validation and Alignment
+: The framework MUST ensure the agent validate intents from the operator or other agents before execution. It MUST also ensure the agent optimize for what the operator actually intends.
 
 CTL-3: Temporal and Data/Context Validity
-: The framework must ensure the agent is acting on current, accurate context.
+: The framework MUST ensure the agent is acting within authorized time windows and under valid operational conditions such as accurate context and data.
 
-CTL-4: Trust and Integrity Protection
-: The framework must protect the agent from adversarial manipulation, including integrity checks for agent decisions, provenance verification for tool outputs, and resistance against prompt injection or other adversarial inputs.
+CTL-4: Authorization and Approval (Escalation)
+: The framework MUST support the designation of certain actions or decisions as requiring explicit human approval before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route approval requests sequentially to designated personnel.
 
-CTL-5: Alignment and Calibration Control
-: The framework must ensure the agent optimize for what the supervisor actually intends. Detect and correct divergence between the agent's measured objective, its world model, and the operational reality.
+CTL-5: Failure and Liveness
+: The framework MUST allow specifying agent behaviors when encountering predefined failure modes and enable agents to periodically report their liveness status for health monitoring.
+
 
 ## Intervention Requirements
 
@@ -140,13 +193,14 @@ INT-5: Correction
 : The supervisor must be able to correct failures by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.
 
 INT-6: Auditability and Accountability
-: The framework must support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and traceability from failure through intervention to recovery.
-The post-failure capability that enables accountability, quantifies impact.
+: The framework MUST support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and traceability from failure through intervention to recovery.
+This post-failure capability MUST enable accountability and quantify operational impact.
 
 # Security Considerations
 
-TODO Security
+This document defines a set of functional requirements for observability, control, and intervention of AI agents in the context of network management.
 
+The requirements themselves do not introduce additional security vulnerabilities. Rather, this document requirements some security safeguards such as access control, identity authentication, and integrity guarantees that should be enforced by the implementation and deployed systems.
 
 # IANA Considerations
 
