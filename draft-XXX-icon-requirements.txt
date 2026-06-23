@@ -5,10 +5,10 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 11 December 2026                                          Cisco
+Expires: 25 December 2026                                          Cisco
                                                                    Q. Wu
                                                                   Huawei
-                                                             9 June 2026
+                                                            23 June 2026
 
 
   Requirements for Observability, Control and Intervention of Network
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 December 2026.
+   This Internet-Draft will expire on 25 December 2026.
 
 Copyright Notice
 
@@ -73,15 +73,16 @@ Table of Contents
    2.  Conventions and Definitions
    3.  Existing Mechanisms for Agent Observability, Control, and
            Intervention
-   4.  Requirements
-     4.1.  Observability Requirements
-     4.2.  Control Requirements
-     4.3.  Intervention Requirements
-   5.  Security Considerations
-   6.  IANA Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   4.  Architecture
+   5.  Requirements
+     5.1.  Observability Requirements
+     5.2.  Control Requirements
+     5.3.  Intervention Requirements
+   6.  Security Considerations
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -173,11 +174,53 @@ Table of Contents
    insufficient, or proprietary.
 
    These gaps motivate the requirements for agent observability,
-   control, and intervention defined in Section 4.
+   control, and intervention defined in Section 5.
 
-4.  Requirements
+4.  Architecture
 
-4.1.  Observability Requirements
+   to be completed...
+
+   +------------------------------------------------------+
+   |                                                      |
+   |                    Human Oversight                   |
+   |                                                      |
+   +----------------^------+----------+--------------+----+
+    Agent Escalation|      |Policy    |Intervention  |Audit
+    /Approval       |      |Injection |Command       |
+    +---------------+------v----------v--------------v----+
+    |                                                     |
+    |                Agent Management Plane               |
+    |                                                     |
+    | +---------------+ +--------------++--------------+  |
+    | | Observability | |   Control    || Intervention |  |
+    | +------^--------+ +------+-------++-------+------+  |
+    |        |                 |                |         |
+    +--------+-----------------+----------------+---------+
+             |                 |                |
+        Telemetry    Static Guardrails  Real-time Instruction
+             |                 |                |
+     +-------+-----------------v----------------v---------+
+     |Agent Execution Plane                               |
+     | +-----------+    +-----------+       +-----------+ |
+     | |           |    |           |       |           | |
+     | |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
+     | |           |    |           |       |           | |
+     | +-----^-----+    +-----^-----+       +-----^-----+ |
+     |       |                |                   |       |
+     | +-----v----------------v-------------------v-----+ |
+     | |              Function Modules & Tools          | |
+     | +------------------------------------------------+ |
+     +-------------------------^--------------------------+
+                               |
+                               | Interaction
+                               |
+     +-------------------------v--------------------------+
+     |             Network Infrastructure                 |
+     +----------------------------------------------------+
+
+5.  Requirements
+
+5.1.  Observability Requirements
 
    OBS-1: Execution Trajectory Capture  The framework MUST support
       visibility into complete agent execution trajectories, including
@@ -199,7 +242,7 @@ Table of Contents
       and trace correlation across distributed multiple agent execution,
       supporting querying and analysis.
 
-4.2.  Control Requirements
+5.2.  Control Requirements
 
    CTL-1: Access and Permission  The framework MUST provide mechanisms
       to define and enforce what systems, actions, skills, tools, data
@@ -227,7 +270,7 @@ Table of Contents
       enable agents to periodically report their liveness status for
       health monitoring.
 
-4.3.  Intervention Requirements
+5.3.  Intervention Requirements
 
    INT-1: Execution Interruption  The operator MUST be able to stop or
       redirect a running agent.  Emergency response from a temporary
@@ -261,7 +304,7 @@ Table of Contents
       through intervention to recovery.  This post-failure capability
       MUST enable accountability and quantify operational impact.
 
-5.  Security Considerations
+6.  Security Considerations
 
    This document defines a set of functional requirements for
    observability, control, and intervention of AI agents in the context
@@ -273,13 +316,13 @@ Table of Contents
    integrity guarantees that should be enforced by the implementation
    and deployed systems.
 
-6.  IANA Considerations
+7.  IANA Considerations
 
    This document has no IANA actions.
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -290,7 +333,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [I-D.wmz-nmrg-agent-ndt-arch]
               Wu, Q., Zhou, C., Contreras, L. M., Han, S., and Y. Hong,
