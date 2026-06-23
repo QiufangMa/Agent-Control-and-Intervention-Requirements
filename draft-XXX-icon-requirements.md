@@ -90,6 +90,50 @@ Although there are some modern agent systems that provide interrupt or kill swit
 
 These gaps motivate the requirements for agent observability, control, and intervention defined in {{requirements}}.
 
+# Architecture
+
+to be completed...
+
+~~~~
++------------------------------------------------------+
+|                                                      |
+|                    Human Oversight                   |
+|                                                      |
++----------------^------+----------+--------------+----+
+ Agent Escalation|      |Policy    |Intervention  |Audit
+ /Approval       |      |Injection |Command       |
+ +---------------+------v----------v--------------v----+
+ |                                                     |
+ |                Agent Management Plane               |
+ |                                                     |
+ | +---------------+ +--------------++--------------+  |
+ | | Observability | |   Control    || Intervention |  |
+ | +------^--------+ +------+-------++-------+------+  |
+ |        |                 |                |         |
+ +--------+-----------------+----------------+---------+
+          |                 |                |
+     Telemetry    Static Guardrails  Real-time Instruction
+          |                 |                |
+  +-------+-----------------v----------------v---------+
+  |Agent Execution Plane                               |
+  | +-----------+    +-----------+       +-----------+ |
+  | |           |    |           |       |           | |
+  | |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
+  | |           |    |           |       |           | |
+  | +-----^-----+    +-----^-----+       +-----^-----+ |
+  |       |                |                   |       |
+  | +-----v----------------v-------------------v-----+ |
+  | |              Function Modules & Tools          | |
+  | +------------------------------------------------+ |
+  +-------------------------^--------------------------+
+                            |
+                            | Interaction
+                            |
+  +-------------------------v--------------------------+
+  |             Network Infrastructure                 |
+  +----------------------------------------------------+
+~~~~
+
 # Requirements {#requirements}
 
 ## Observability Requirements
