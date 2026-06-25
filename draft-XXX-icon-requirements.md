@@ -40,6 +40,15 @@ author:
    country: China
    email: bill.wu@huawei.com
 
+contributor:
+-
+  fullname: Yuanyuan Yang
+  organization: Huawei
+  street: 101 Software Avenue, Yuhua District
+  city: Jiangsu
+  code: 210012
+  country: China
+  email: yangyuanyuan55@huawei.com
 
 normative:
 
@@ -49,8 +58,7 @@ informative:
 
 This document defines a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
 
-It identifies gaps in existing mechanisms and specifies required interaction capabilities between supervisors (e.g., human operators or automated agent supervision systems) and network management agents across multi-vendor environments, specifically observability, control, and run-time intervention. The requirements aim to mitigate agent unreliability and hallucination issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
-
+It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and run-time intervention. The requirements aim to mitigate agent unreliability issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
 
 
 --- middle
@@ -77,7 +85,6 @@ This document does not specify a particular protocol, data model, or implementat
 Observability:
 : The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling a supervisor to understand what the agent is doing and why it behaves in a specific manner.
 
-
 Control:
 : A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
 
@@ -97,49 +104,50 @@ Although there are some modern agent systems that provide interrupt or kill swit
 
 These gaps motivate the requirements for agent observability, control, and intervention defined in {{requirements}}.
 
+
 # Architecture
 
-to be completed...
+This section describes the reference architecture for ICON. The architecture defined in this section serves as the structural foundation to derive the requirements specified in {{requirements}}.
 
 ~~~~
-+------------------------------------------------------+
-|                                                      |
-|                    Human Oversight                   |
-|                                                      |
-+----------------^------+----------+--------------+----+
- Agent Escalation|      |Policy    |Intervention  |Audit
- /Approval       |      |Injection |Command       |
- +---------------+------v----------v--------------v----+
- |                                                     |
- |                Agent Management Plane               |
- |                                                     |
- | +---------------+ +--------------++--------------+  |
- | | Observability | |   Control    || Intervention |  |
- | +------^--------+ +------+-------++-------+------+  |
- |        |                 |                |         |
- +--------+-----------------+----------------+---------+
-          |                 |                |
-     Telemetry    Static Guardrails  Real-time Instruction
-          |                 |                |
-  +-------+-----------------v----------------v---------+
-  |Agent Execution Plane                               |
-  | +-----------+    +-----------+       +-----------+ |
-  | |           |    |           |       |           | |
-  | |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
-  | |           |    |           |       |           | |
-  | +-----^-----+    +-----^-----+       +-----^-----+ |
-  |       |                |                   |       |
-  | +-----v----------------v-------------------v-----+ |
-  | |              Function Modules & Tools          | |
-  | +------------------------------------------------+ |
-  +-------------------------^--------------------------+
-                            |
-                            | Interaction
-                            |
-  +-------------------------v--------------------------+
-  |             Network Infrastructure                 |
-  +----------------------------------------------------+
++----------------------------------------------------------+
+|     Agent Gonvernance Plane                              |
+|     +-----------------------------------------------+    |
+|     |             Human Oversight                   |    |
+|     +-----------------------------------------------+    |
+|     +-----------------------------------------+          |
+|     |ICON Client                              |          |
+|     |  +-------------++-------++------------+ |          |
+|     |  |Observability||Control||Intervention| |   ...    |
+|     |  +-----^-------++--+----++------^-----+ |          |
+|     +--------+-----------+------------+-------+          |
++--------------+-----------+------------+------------------+
+               |           |            |
+               |           |            | ICON Interface
+               |           |            |
++--------------+-----------v------------v------------------+
+|              ICON Enforcement Component                  |
++----------------------------------------------------------+
++----------------------------------------------------------+
+|    Agent Execution Plane                                 |
+|    +-----------+    +-----------+       +-----------+    |
+|    |           |    |           |       |           |    |
+|    |  Agent 1  <---->  Agent 2  <--...-->  Agent n  |    |
+|    |           |    |           |       |           |    |
+|    +-----^-----+    +-----^-----+       +-----^-----+    |
+|          |                |                   |          |
+|    +-----v----------------v-------------------v-----+    |
+|    |              Function Modules & Tools          |    |
+|    +------------------------------------------------+    |
++----------------------------^-----------------------------+
+                             |
+                             | Interaction
+                             |
++----------------------------v-----------------------------+
+|                Network Infrastructure                    |
++----------------------------------------------------------+
 ~~~~
+
 
 # Requirements {#requirements}
 
