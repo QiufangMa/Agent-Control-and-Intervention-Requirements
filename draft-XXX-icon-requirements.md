@@ -109,6 +109,49 @@ These gaps motivate the requirements for agent observability, control, and inter
 
 This section describes the reference architecture for ICON. The architecture defined in this section serves as the structural foundation to derive the requirements specified in {{requirements}}.
 
+## Agent Gonvernance Plane
+
+Agent governance layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
+
+### Human Oversight
+
+Human oversight represents the top-level authority of the agent governance. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
+
+ * Policy and Constraint Injection:
+ : Human operators could express high-level operational constraints or boundaries. These intents are translated into machine-readable policies by ICON client and sent to the policy enforcement component.
+
+ * Escalation Handling:
+ : When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.
+
+ * Emergancy Intervention Trigger:
+ : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).
+
+ * Post-Execution Feedback:
+ : Beyond runtime intervention, operators could also provide a critical retrospective evaluation feedback. Following an incident, anomaly, or successful resolution, human operators may inject multi-dimensional feedback (e.g., critiquing the agent’s reasoning paths, correcting intermediate planning errors, or evaluating the quality of tool selection). This retrospective feedback could be used to update the prompt templates or refine downstream guardrail policies, preventing the recurrence of similar behavioral drifts.
+
+
+It is worth mentioning that human operators rarely send raw ICON protocol payloads directly to ICON enforcement component. They could use more flexible and human-friendly formatting such as natural language which is relayed to the ICON client to translate into structured ICON signals for normalization and forwarding.
+
+### ICON Client
+
+The ICON client is the logical entity which acts on behalf of human operators to manage the agent observability, control, and intervention. It is responsible for the multi-Agent observability aggregation, policy control, and emergency intervention logic for heterogeneous multi-Agent autonomous networks.
+
+ * Observability:
+ : XX.
+
+ * Control:
+ : XXX.
+
+ * Intervention:
+ : cc.
+
+In practical deployments, ICON client could be embedded within network management systems, OSS/BSS, an external Agent governance platform, or a even upper-layer supervisor Agent.
+
+## ICON Enforcement Component (ICON Server)
+
+
+In practical deployments, ICON enforcement component could be implemented at the AI Agent gateway ...
+
 ~~~~
 +----------------------------------------------------------+
 |     Agent Gonvernance Plane                              |
@@ -200,9 +243,11 @@ INT-4: Escalation
 INT-5: Correction
 : The supervisor must be able to correct failures by modifying an agent's pending action, planned sequence, or internal state before execution proceeds.
 
+
 INT-6: Auditability and Accountability
 : The framework MUST support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime, cost), and traceability from failure through intervention to recovery.
 This post-failure capability MUST enable accountability and quantify operational impact.
+
 
 # Security Considerations
 
