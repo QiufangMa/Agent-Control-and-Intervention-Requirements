@@ -5,10 +5,10 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 25 December 2026                                          Cisco
+Expires: 27 December 2026                                          Cisco
                                                                    Q. Wu
                                                                   Huawei
-                                                            23 June 2026
+                                                            25 June 2026
 
 
   Requirements for Observability, Control and Intervention of Network
@@ -21,13 +21,12 @@ Abstract
    Control, and Intervention for Network Management Agents).
 
    It identifies gaps in existing mechanisms and specifies required
-   interaction capabilities between supervisors (e.g., human operators
-   or automated agent supervision systems) and network management agents
-   across multi-vendor environments, specifically observability,
-   control, and run-time intervention.  The requirements aim to mitigate
-   agent unreliability and hallucination issues, and to minimize the
-   negative impacts that agents might cause to networks when they
-   deviate from expected behaviors.
+   interaction capabilities between Agent supervision systems and
+   network management agents across multi-vendor environments,
+   specifically observability, control, and run-time intervention.  The
+   requirements aim to mitigate agent unreliability issues, and to
+   minimize the negative impacts that agents might cause to networks
+   when they deviate from expected behaviors.
 
 Discussion Venues
 
@@ -52,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 December 2026.
+   This Internet-Draft will expire on 27 December 2026.
 
 Copyright Notice
 
@@ -85,6 +84,7 @@ Table of Contents
      8.1.  Normative References
      8.2.  Informative References
    Acknowledgments
+   Contributors
    Authors' Addresses
 
 1.  Introduction
@@ -190,45 +190,46 @@ Table of Contents
 
 4.  Architecture
 
-   to be completed...
+   This section describes the reference architecture for ICON.  The
+   architecture defined in this section serves as the structural
+   foundation to derive the requirements specified in Section 5.
 
-   +------------------------------------------------------+
-   |                                                      |
-   |                    Human Oversight                   |
-   |                                                      |
-   +----------------^------+----------+--------------+----+
-    Agent Escalation|      |Policy    |Intervention  |Audit
-    /Approval       |      |Injection |Command       |
-    +---------------+------v----------v--------------v----+
-    |                                                     |
-    |                Agent Management Plane               |
-    |                                                     |
-    | +---------------+ +--------------++--------------+  |
-    | | Observability | |   Control    || Intervention |  |
-    | +------^--------+ +------+-------++-------+------+  |
-    |        |                 |                |         |
-    +--------+-----------------+----------------+---------+
-             |                 |                |
-        Telemetry    Static Guardrails  Real-time Instruction
-             |                 |                |
-     +-------+-----------------v----------------v---------+
-     |Agent Execution Plane                               |
-     | +-----------+    +-----------+       +-----------+ |
-     | |           |    |           |       |           | |
-     | |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
-     | |           |    |           |       |           | |
-     | +-----^-----+    +-----^-----+       +-----^-----+ |
-     |       |                |                   |       |
-     | +-----v----------------v-------------------v-----+ |
-     | |              Function Modules & Tools          | |
-     | +------------------------------------------------+ |
-     +-------------------------^--------------------------+
-                               |
-                               | Interaction
-                               |
-     +-------------------------v--------------------------+
-     |             Network Infrastructure                 |
-     +----------------------------------------------------+
+   +----------------------------------------------------------+
+   |     Agent Gonvernance Plane                              |
+   |     +-----------------------------------------------+    |
+   |     |             Human Oversight                   |    |
+   |     +-----------------------------------------------+    |
+   |     +-----------------------------------------+          |
+   |     |ICON Client                              |          |
+   |     |  +-------------++-------++------------+ |          |
+   |     |  |Observability||Control||Intervention| |   ...    |
+   |     |  +-----^-------++--+----++------^-----+ |          |
+   |     +--------+-----------+------------+-------+          |
+   +--------------+-----------+------------+------------------+
+                  |           |            |
+                  |           |            | ICON Interface
+                  |           |            |
+   +--------------+-----------v------------v------------------+
+   |              ICON Enforcement Component                  |
+   +----------------------------------------------------------+
+   +----------------------------------------------------------+
+   |    Agent Execution Plane                                 |
+   |    +-----------+    +-----------+       +-----------+    |
+   |    |           |    |           |       |           |    |
+   |    |  Agent 1  <---->  Agent 2  <--...-->  Agent n  |    |
+   |    |           |    |           |       |           |    |
+   |    +-----^-----+    +-----^-----+       +-----^-----+    |
+   |          |                |                   |          |
+   |    +-----v----------------v-------------------v-----+    |
+   |    |              Function Modules & Tools          |    |
+   |    +------------------------------------------------+    |
+   +----------------------------^-----------------------------+
+                                |
+                                | Interaction
+                                |
+   +----------------------------v-----------------------------+
+   |                Network Infrastructure                    |
+   +----------------------------------------------------------+
 
 5.  Requirements
 
@@ -358,6 +359,17 @@ Table of Contents
 Acknowledgments
 
    TODO acknowledge.
+
+Contributors
+
+   Yuanyuan Yang
+   Huawei
+   101 Software Avenue, Yuhua District
+   Jiangsu
+   210012
+   China
+   Email: yangyuanyuan55@huawei.com
+
 
 Authors' Addresses
 
