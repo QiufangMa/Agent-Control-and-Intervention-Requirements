@@ -5,25 +5,26 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 27 December 2026                                          Cisco
+Expires: 28 December 2026                                          Cisco
                                                                    Q. Wu
                                                                   Huawei
-                                                            25 June 2026
+                                                            26 June 2026
 
 
-  Requirements for Observability, Control and Intervention of Network
-                           Management Agents
+      Architecture and Requirements for Observability, Control and
+               Intervention of Network Management Agents
                    draft-XXX-icon-requirements-latest
 
 Abstract
 
-   This document defines a set of requirements for ICON (Observability,
-   Control, and Intervention for Network Management Agents).
+   This document defines architecture and a set of requirements for ICON
+   (Observability, Control, and Intervention for Network Management
+   Agents).
 
    It identifies gaps in existing mechanisms and specifies required
    interaction capabilities between Agent supervision systems and
    network management agents across multi-vendor environments,
-   specifically observability, control, and run-time intervention.  The
+   specifically observability, control, and runtime intervention.  The
    requirements aim to mitigate agent unreliability issues, and to
    minimize the negative impacts that agents might cause to networks
    when they deviate from expected behaviors.
@@ -51,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 December 2026.
+   This Internet-Draft will expire on 28 December 2026.
 
 Copyright Notice
 
@@ -73,7 +74,7 @@ Table of Contents
    2.  Conventions and Definitions
    3.  Existing Mechanisms for Agent Observability, Control, and
            Intervention
-   4.  Architecture
+   4.  Architectural Framework for ICON
      4.1.  Agent Gonvernance Plane
        4.1.1.  Human Oversight
        4.1.2.  ICON Client
@@ -112,15 +113,16 @@ Table of Contents
    unintended configuration changes, policy violations, or cascading
    failures in the network.
 
-   This document defines requirements for ICON — Intervention, Control,
-   and Observability for Network Management Agents.  It emphasizes
+   This document defines architecture for ICON — Intervention, Control,
+   and Observability for Network Management Agents.  It also emphasizes
    essential requirements that supervisors need when deploying agents in
    real networks for agent observability, control, and intervention.
 
-   This document specifies the communication requirements between the
-   agent and the supervision system.  It does not standardized the
-   internal LLM architecture, planning algorithms, or training
-   methodologies of the network management agents themselves.
+   This document specifies the architecture and communication
+   requirements between the agent and the supervision system.  It does
+   not standardized the internal LLM architecture, planning algorithms,
+   or training methodologies of the network management agents
+   themselves.
 
    This document does not specify a particular protocol, data model, or
    implementation API.  Those topics are orthogonal to the operational
@@ -189,14 +191,54 @@ Table of Contents
    or kill switch capabilities, they remain framework-specific,
    insufficient, or proprietary.
 
-   These gaps motivate the requirements for agent observability,
-   control, and intervention defined in Section 5.
+   These gaps motivate the architectural framework and requirements for
+   agent observability, control, and intervention defined in Section 4
+   and Section 5, respectively.
 
-4.  Architecture
+4.  Architectural Framework for ICON
 
    This section describes the reference architecture for ICON.  The
-   architecture defined in this section serves as the structural
-   foundation to derive the requirements specified in Section 5.
+   architecture defined in Figure 1 serves as the structural foundation
+   to derive the requirements specified in Section 5.
+
+       +----------------------------------------------------------+
+       |     Agent Governance Plane                               |
+       |     +-----------------------------------------------+    |
+       |     |             Human Oversight                   |    |
+       |     +-----------------------------------------------+    |
+       |     +-----------------------------------------+          |
+       |     |ICON Client                              |          |
+       |     |  +-------------++-------++------------+ |          |
+       |     |  |Observability||Control||Intervention| |   ...    |
+       |     |  +-----^-------++--+----++------^-----+ |          |
+       |     +--------+-----------+------------+-------+          |
+       +--------------+-----------+------------+------------------+
+                      |           |            |
+                      |           |            | ICON Interface
+                      |           |            |
+       +--------------+-----------v------------v------------------+
+       |              ICON Enforcement Component                  |
+       +----------------------------------------------------------+
+       +----------------------------------------------------------+
+       |    Agent Execution Plane                                 |
+       |    +-----------+    +-----------+       +-----------+    |
+       |    |           |    |           |       |           |    |
+       |    |  Agent 1  <---->  Agent 2  <--...-->  Agent n  |    |
+       |    |           |    |           |       |           |    |
+       |    +-----^-----+    +-----^-----+       +-----^-----+    |
+       |          |                |                   |          |
+       |    +-----v----------------v-------------------v-----+    |
+       |    |              Function Modules & Tools          |    |
+       |    +------------------------------------------------+    |
+       +----------------------------^-----------------------------+
+                                    |
+                                    | Interaction
+                                    |
+       +----------------------------v-----------------------------+
+       |                Network Infrastructure                    |
+       +----------------------------------------------------------+
+
+                        Figure 1: ICON Architecture
 
 4.1.  Agent Gonvernance Plane
 
@@ -251,62 +293,66 @@ Table of Contents
 4.1.2.  ICON Client
 
    The ICON client is the logical entity which acts on behalf of human
-   operators to manage the agent observability, control, and
-   intervention.  It is responsible for the multi-Agent observability
-   aggregation, policy control, and emergency intervention logic for
-   heterogeneous multi-Agent autonomous networks.
+   operators to monitor and control Agents, and to intervene in their
+   behaviors when necessary.  It is responsible for the multi-Agent
+   observability aggregation, policy control, and emergency intervention
+   logic for heterogeneous multi-Agent autonomous networks.
 
-   *  Observability:  XX.
+   *  Observability:  It receives normalized observation streams
+         transmitted from downstream ICON enforcement components.  It
+         provides human operators with comprehensive agent behavioral
+         visibility and identifying operational anomalies or performance
+         drifts.
 
-   *  Control:  XXX.
+   *  Control:  It acts as the centralized Policy Decision Point (PDP)
+         [RFC3198] that translates human operational guidelines into
+         agent behavioral boundaries, guardrails, or operational
+         constraints.  It dynamically pushes a set of structured rules
+         or policy constraints down to enforcement components.
 
-   *  Intervention:  cc.
+   *  Intervention:  It hosts the emergency orchestration logic required
+         to reactively instruct agents in response to boundary
+         violations, anomalies, failures, or operational risks.  Upon
+         detecting critical policy violations or receiving manual
+         override commands from human oversight, it generates specific
+         instructions (such as pause or terminate) and pushes them down
+         to the enforcement component.  In addition, it also receives
+         upstream messages initiated by agents, such as escalation
+         requests that proactively require human intervention.
 
    In practical deployments, ICON client could be embedded within
-   network management systems, OSS/BSS, an external Agent governance
+   network management systems/OSS, an external Agent governance
    platform, or a even upper-layer supervisor Agent.
 
 4.2.  ICON Enforcement Component (ICON Server)
 
-   In practical deployments, ICON enforcement component could be
-   implemented at the AI Agent gateway ...
+   ICON enforcement component serves as the unified bridge between Agent
+   supervision signals and native Agent execution workflows.  It
+   abstracts heterogenous agent runtime and exposes standardized ICON
+   interaction endpoints.
 
-   +----------------------------------------------------------+
-   |     Agent Gonvernance Plane                              |
-   |     +-----------------------------------------------+    |
-   |     |             Human Oversight                   |    |
-   |     +-----------------------------------------------+    |
-   |     +-----------------------------------------+          |
-   |     |ICON Client                              |          |
-   |     |  +-------------++-------++------------+ |          |
-   |     |  |Observability||Control||Intervention| |   ...    |
-   |     |  +-----^-------++--+----++------^-----+ |          |
-   |     +--------+-----------+------------+-------+          |
-   +--------------+-----------+------------+------------------+
-                  |           |            |
-                  |           |            | ICON Interface
-                  |           |            |
-   +--------------+-----------v------------v------------------+
-   |              ICON Enforcement Component                  |
-   +----------------------------------------------------------+
-   +----------------------------------------------------------+
-   |    Agent Execution Plane                                 |
-   |    +-----------+    +-----------+       +-----------+    |
-   |    |           |    |           |       |           |    |
-   |    |  Agent 1  <---->  Agent 2  <--...-->  Agent n  |    |
-   |    |           |    |           |       |           |    |
-   |    +-----^-----+    +-----^-----+       +-----^-----+    |
-   |          |                |                   |          |
-   |    +-----v----------------v-------------------v-----+    |
-   |    |              Function Modules & Tools          |    |
-   |    +------------------------------------------------+    |
-   +----------------------------^-----------------------------+
-                                |
-                                | Interaction
-                                |
-   +----------------------------v-----------------------------+
-   |                Network Infrastructure                    |
-   +----------------------------------------------------------+
+   *  Observability Enforcement:  It collects raw runtime observation
+         data from local multi-agent systems, normalizes raw logs,
+         traces and metrics into unified formats, and transmits
+         observation streams upward to the remote ICON Client for
+         centralized storage, analysis, and visualization.
+
+   *  Control Enforcement:  It receives and enforces operational
+         constraint rules or policies pushed by ICON Client as a Policy
+         Enforcement Point (PEP) [RFC3198].  Examples include access
+         control for the agent's invocation of tools, and triggers
+         approval request workflows according to the predefined rules.
+
+   *  Intervention Enforcement:  It accepts runtime override
+         instructions delivered from ICON client, and executes
+         corresponding immediate actions on specific running agent
+         instance, such as suspending ongoing agent operation while
+         retaining a snapshot of the execution state and context for
+         recovery, or reversing a specific action taken by the agent.
+
+   In practical deployments, ICON enforcement component could be
+   implemented at the AI Agent gateway, or deployed as a runtime wrapper
+   around individual agent instances.
 
 5.  Requirements
 
@@ -432,6 +478,12 @@ Table of Contents
               Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-04, 21 May
               2026, <https://datatracker.ietf.org/doc/html/draft-wmz-
               nmrg-agent-ndt-arch-04>.
+
+   [RFC3198]  Westerinen, A., Schnizlein, J., Strassner, J., Scherling,
+              M., Quinn, B., Herzog, S., Huynh, A., Carlson, M., Perry,
+              J., and S. Waldbusser, "Terminology for Policy-Based
+              Management", RFC 3198, DOI 10.17487/RFC3198, November
+              2001, <https://www.rfc-editor.org/rfc/rfc3198>.
 
 Acknowledgments
 
