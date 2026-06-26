@@ -1,5 +1,5 @@
 ---
-title: "Requirements for Observability, Control and Intervention of Network Management Agents"
+title: "Architecture and Requirements for Observability, Control and Intervention of Network Management Agents"
 abbrev: "icon requirements"
 category: info
 
@@ -56,9 +56,9 @@ informative:
 
 --- abstract
 
-This document defines a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
+This document defines architecture and a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
 
-It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and run-time intervention. The requirements aim to mitigate agent unreliability issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
+It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to mitigate agent unreliability issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
 
 
 --- middle
@@ -69,9 +69,9 @@ AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg
 
 Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.
 
-This document defines requirements for ICON — Intervention, Control, and Observability for Network Management Agents. It emphasizes essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention.
+This document defines architecture for ICON — Intervention, Control, and Observability for Network Management Agents. It also emphasizes essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention.
 
-This document specifies the communication requirements between the agent and the supervision system. It does not standardized the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
+This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardized the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
 
 This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.
 
@@ -102,59 +102,16 @@ Existing AI guardrails primarily operate at static boundaries, such as input/out
 
 Although there are some modern agent systems that provide interrupt or kill switch capabilities, they remain framework-specific, insufficient, or proprietary.
 
-These gaps motivate the requirements for agent observability, control, and intervention defined in {{requirements}}.
+These gaps motivate the architectural framework and requirements for agent observability, control, and intervention defined in {{architecture}} and {{requirements}}, respectively.
 
 
-# Architecture
+# Architectural Framework for ICON {#architecture}
 
-This section describes the reference architecture for ICON. The architecture defined in this section serves as the structural foundation to derive the requirements specified in {{requirements}}.
-
-## Agent Gonvernance Plane
-
-Agent governance layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
-
-### Human Oversight
-
-Human oversight represents the top-level authority of the agent governance. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
-
- * Policy and Constraint Injection:
- : Human operators could express high-level operational constraints or boundaries. These intents are translated into machine-readable policies by ICON client and sent to the policy enforcement component.
-
- * Escalation Handling:
- : When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.
-
- * Emergancy Intervention Trigger:
- : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).
-
- * Post-Execution Feedback:
- : Beyond runtime intervention, operators could also provide a critical retrospective evaluation feedback. Following an incident, anomaly, or successful resolution, human operators may inject multi-dimensional feedback (e.g., critiquing the agent’s reasoning paths, correcting intermediate planning errors, or evaluating the quality of tool selection). This retrospective feedback could be used to update the prompt templates or refine downstream guardrail policies, preventing the recurrence of similar behavioral drifts.
-
-
-It is worth mentioning that human operators rarely send raw ICON protocol payloads directly to ICON enforcement component. They could use more flexible and human-friendly formatting such as natural language which is relayed to the ICON client to translate into structured ICON signals for normalization and forwarding.
-
-### ICON Client
-
-The ICON client is the logical entity which acts on behalf of human operators to manage the agent observability, control, and intervention. It is responsible for the multi-Agent observability aggregation, policy control, and emergency intervention logic for heterogeneous multi-Agent autonomous networks.
-
- * Observability:
- : XX.
-
- * Control:
- : XXX.
-
- * Intervention:
- : cc.
-
-In practical deployments, ICON client could be embedded within network management systems, OSS/BSS, an external Agent governance platform, or a even upper-layer supervisor Agent.
-
-## ICON Enforcement Component (ICON Server)
-
-
-In practical deployments, ICON enforcement component could be implemented at the AI Agent gateway ...
+This section describes the reference architecture for ICON. The architecture defined in {{arch}} serves as the structural foundation to derive the requirements specified in {{requirements}}.
 
 ~~~~
 +----------------------------------------------------------+
-|     Agent Gonvernance Plane                              |
+|     Agent Governance Plane                               |
 |     +-----------------------------------------------+    |
 |     |             Human Oversight                   |    |
 |     +-----------------------------------------------+    |
@@ -190,6 +147,61 @@ In practical deployments, ICON enforcement component could be implemented at the
 |                Network Infrastructure                    |
 +----------------------------------------------------------+
 ~~~~
+{: #arch title="ICON Architecture" artwork-align="center"}
+
+## Agent Gonvernance Plane
+
+Agent governance layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
+
+### Human Oversight
+
+Human oversight represents the top-level authority of the agent governance. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
+
+ * Policy and Constraint Injection:
+ : Human operators could express high-level operational constraints or boundaries. These intents are translated into machine-readable policies by ICON client and sent to the policy enforcement component.
+
+ * Escalation Handling:
+ : When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.
+
+ * Emergancy Intervention Trigger:
+ : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).
+
+ * Post-Execution Feedback:
+ : Beyond runtime intervention, operators could also provide a critical retrospective evaluation feedback. Following an incident, anomaly, or successful resolution, human operators may inject multi-dimensional feedback (e.g., critiquing the agent’s reasoning paths, correcting intermediate planning errors, or evaluating the quality of tool selection). This retrospective feedback could be used to update the prompt templates or refine downstream guardrail policies, preventing the recurrence of similar behavioral drifts.
+
+
+It is worth mentioning that human operators rarely send raw ICON protocol payloads directly to ICON enforcement component. They could use more flexible and human-friendly formatting such as natural language which is relayed to the ICON client to translate into structured ICON signals for normalization and forwarding.
+
+### ICON Client
+
+The ICON client is the logical entity which acts on behalf of human operators to monitor and control Agents, and to intervene in their behaviors when necessary. It is responsible for the multi-Agent observability aggregation, policy control, and emergency intervention logic for heterogeneous multi-Agent autonomous networks.
+
+ * Observability:
+ : It receives normalized observation streams transmitted from downstream ICON enforcement components. It provides human operators with comprehensive agent behavioral visibility and identifying operational anomalies or performance drifts.
+
+ * Control:
+ : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human operational guidelines into agent behavioral boundaries, guardrails, or operational constraints. It dynamically pushes a set of structured rules or policy constraints down to enforcement components.
+
+ * Intervention:
+ : It hosts the emergency orchestration logic required to reactively instruct agents in response to boundary violations, anomalies, failures, or operational risks. Upon detecting critical policy violations or receiving manual override commands from human oversight, it generates specific instructions (such as pause or terminate) and pushes them down to the enforcement component. In addition, it also receives upstream messages initiated by agents, such as escalation requests that proactively require human intervention.
+
+In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent governance platform, or a even upper-layer supervisor Agent.
+
+## ICON Enforcement Component (ICON Server)
+
+ICON enforcement component serves as the unified bridge between Agent supervision signals and native Agent execution workflows. It abstracts heterogenous agent runtime and exposes standardized ICON interaction endpoints.
+
+ * Observability Enforcement:
+ : It collects raw runtime observation data from local multi-agent systems, normalizes raw logs, traces and metrics into unified formats, and transmits observation streams upward to the remote ICON Client for centralized storage, analysis, and visualization.
+
+ * Control Enforcement:
+ : It receives and enforces operational constraint rules or policies pushed by ICON Client as a Policy Enforcement Point (PEP) {{?RFC3198}}. Examples include access control for the agent's invocation of tools, and triggers approval request workflows according to the predefined rules.
+
+ * Intervention Enforcement:
+ : It accepts runtime override instructions delivered from ICON client, and executes corresponding immediate actions on specific running agent instance, such as suspending ongoing agent operation while retaining a snapshot of the execution state and context for recovery, or reversing a specific action taken by the agent.
+
+In practical deployments, ICON enforcement component could be implemented at the AI Agent gateway, or deployed as a runtime wrapper around individual agent instances.
+
 
 
 # Requirements {#requirements}
