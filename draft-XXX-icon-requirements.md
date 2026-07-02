@@ -92,7 +92,7 @@ Intervention:
 : A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
 Supervisor:
-:The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege governance system, or an orchestrator.
+:The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege orchestration system, or an orchestrator.
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
@@ -111,7 +111,7 @@ This section describes the reference architecture for ICON. The architecture def
 
 ~~~~
 +----------------------------------------------------------+
-|     Agent Governance Plane                               |
+|     Agent Orchestration Plane                            |
 |     +-----------------------------------------------+    |
 |     |             Human Oversight                   |    |
 |     +-----------------------------------------------+    |
@@ -149,13 +149,13 @@ This section describes the reference architecture for ICON. The architecture def
 ~~~~
 {: #arch title="ICON Architecture" artwork-align="center"}
 
-## Agent Gonvernance Plane
+## Agent Orchestration Plane
 
-Agent governance layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
+Agent Orchestration layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
 
 ### Human Oversight
 
-Human oversight represents the top-level authority of the agent governance. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
+Human oversight represents the top-level authority of the agent guardrail. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
 
  * Policy and Constraint Injection:
  : Human operators could express high-level operational constraints or boundaries. These intents are translated into machine-readable policies by ICON client and sent to the policy enforcement component.
@@ -185,7 +185,7 @@ The ICON client is the logical entity which acts on behalf of human operators to
  * Intervention:
  : It hosts the emergency orchestration logic required to reactively instruct agents in response to boundary violations, anomalies, failures, or operational risks. Upon detecting critical policy violations or receiving manual override commands from human oversight, it generates specific instructions (such as pause or terminate) and pushes them down to the enforcement component. In addition, it also receives upstream messages initiated by agents, such as escalation requests that proactively require human intervention.
 
-In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent governance platform, or a even upper-layer supervisor Agent.
+In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent orchestration platform, or a even upper-layer supervisor Agent.
 
 ## ICON Enforcement Component (ICON Server)
 
