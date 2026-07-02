@@ -94,6 +94,8 @@ intervention:
 supervisor:
 : The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege governance system, or an orchestrator.
 
+context:
+: The data, interaction history, and situational parameters that allow AI agents to remember the history of a specific interaction over multiple turns.
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
@@ -164,7 +166,7 @@ Human oversight represents the top-level authority of the agent governance. It p
  * Escalation Handling:
  : When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.
 
- * Emergancy Intervention Trigger:
+ * Emergency Intervention Trigger:
  : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).
 
  * Post-Execution Feedback:
@@ -258,6 +260,9 @@ Based on the severity and impact of the failure, the rollback granularities SHOU
 
  * Agent task level
  : Reverts an entire task execution, performing a comprehensive rollback of all network operations introduced since the initiation of the task. This is used as an emergency mechanism for severe failures where the agent's entire execution is failed. For example, when an agent fails to provision a network service, the supervisor triggers a full task rollback to wipe out the entire provisioning attempts across all affected nodes.
+
+ * Agent context level
+ : Reverts all network operations across multiple related tasks bound by the same context. This acts as an ultimate rollback mechanism to reset the entire multi-turn interaction or back to its original historical baseline. For example, during a multi-turn network troubleshooting conversation, an agent executes three tasks under the same context to mitigate an anomaly. If supervisor realizes the entire investigation pathway was flawed, they may select context level rollback to comprehensively wipe out all configuration changes made across all three tasks in this specific context.
 
 INT-4: Escalation
 : The supervisor must be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.
