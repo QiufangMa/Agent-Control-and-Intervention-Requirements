@@ -5,10 +5,10 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 28 December 2026                                          Cisco
+Expires: 3 January 2027                                            Cisco
                                                                    Q. Wu
                                                                   Huawei
-                                                            26 June 2026
+                                                             2 July 2026
 
 
       Architecture and Requirements for Observability, Control and
@@ -25,9 +25,9 @@ Abstract
    interaction capabilities between Agent supervision systems and
    network management agents across multi-vendor environments,
    specifically observability, control, and runtime intervention.  The
-   requirements aim to mitigate agent unreliability issues, and to
-   minimize the negative impacts that agents might cause to networks
-   when they deviate from expected behaviors.
+   requirements aim to guarantee comprehensive, lifecycle control over
+   AI agents and enable observation, constraint, intervention, and
+   correction to ensure network operational resilience and continuity.
 
 Discussion Venues
 
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 December 2026.
+   This Internet-Draft will expire on 3 January 2027.
 
 Copyright Notice
 
@@ -374,9 +374,9 @@ Table of Contents
       execution latency, error rates, token consumption, resource usage,
       task completion rates, and confidence calibration.
 
-   OBS-4: Multi-Agent Correlation  The framework MUST support logging
-      and trace correlation across distributed multiple agent execution,
-      supporting querying and analysis.
+   OBS-4: Multi-Agent Correlation  The framework SHOULD support logging
+      and trace correlation across multiple agent execution, supporting
+      querying and analysis.
 
 5.2.  Control Requirements
 
