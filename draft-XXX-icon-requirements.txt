@@ -75,7 +75,7 @@ Table of Contents
    3.  Existing Mechanisms for Agent Observability, Control, and
            Intervention
    4.  Architectural Framework for ICON
-     4.1.  Agent Gonvernance Plane
+     4.1.  Agent Governance Plane
        4.1.1.  Human Oversight
        4.1.2.  ICON Client
      4.2.  ICON Enforcement Component (ICON Server)
@@ -240,7 +240,7 @@ Table of Contents
 
                         Figure 1: ICON Architecture
 
-4.1.  Agent Gonvernance Plane
+4.1.  Agent Governance Plane
 
    Agent governance layer is the Agent supervision and management layer
    which is used to manage, monitor, and regulate autonomous AI agents.
@@ -266,7 +266,7 @@ Table of Contents
          operators.  A human operator could either approve, reject, or
          modify the agent's pending action sequence.
 
-   *  Emergancy Intervention Trigger:  In the scenario of an unforeseen
+   *  Emergency Intervention Trigger:  In the scenario of an unforeseen
          and deviated agent behavior (e.g., an agent entering an
          infinite inference loop or executing based on outdated data or
          incorrect assumption), human oversight allows immediate, manual
@@ -334,11 +334,11 @@ Table of Contents
    *  Observability Enforcement:  It collects raw runtime observation
          data from local multi-agent systems, normalizes raw logs,
          traces and metrics into unified formats, and transmits
-         observation streams upward to the remote ICON Client for
+         observation streams upward to the remote ICON client for
          centralized storage, analysis, and visualization.
 
    *  Control Enforcement:  It receives and enforces operational
-         constraint rules or policies pushed by ICON Client as a Policy
+         constraint rules or policies pushed by ICON client as a Policy
          Enforcement Point (PEP) [RFC3198].  Examples include access
          control for the agent's invocation of tools, and triggers
          approval request workflows according to the predefined rules.
