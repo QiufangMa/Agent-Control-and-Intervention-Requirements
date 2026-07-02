@@ -149,7 +149,7 @@ This section describes the reference architecture for ICON. The architecture def
 ~~~~
 {: #arch title="ICON Architecture" artwork-align="center"}
 
-## Agent Gonvernance Plane
+## Agent Governance Plane
 
 Agent governance layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
 
@@ -163,7 +163,7 @@ Human oversight represents the top-level authority of the agent governance. It p
  * Escalation Handling:
  : When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.
 
- * Emergancy Intervention Trigger:
+ * Emergency Intervention Trigger:
  : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).
 
  * Post-Execution Feedback:
@@ -192,10 +192,10 @@ In practical deployments, ICON client could be embedded within network managemen
 ICON enforcement component serves as the unified bridge between Agent supervision signals and native Agent execution workflows. It abstracts heterogenous agent runtime and exposes standardized ICON interaction endpoints.
 
  * Observability Enforcement:
- : It collects raw runtime observation data from local multi-agent systems, normalizes raw logs, traces and metrics into unified formats, and transmits observation streams upward to the remote ICON Client for centralized storage, analysis, and visualization.
+ : It collects raw runtime observation data from local multi-agent systems, normalizes raw logs, traces and metrics into unified formats, and transmits observation streams upward to the remote ICON client for centralized storage, analysis, and visualization.
 
  * Control Enforcement:
- : It receives and enforces operational constraint rules or policies pushed by ICON Client as a Policy Enforcement Point (PEP) {{?RFC3198}}. Examples include access control for the agent's invocation of tools, and triggers approval request workflows according to the predefined rules.
+ : It receives and enforces operational constraint rules or policies pushed by ICON client as a Policy Enforcement Point (PEP) {{?RFC3198}}. Examples include access control for the agent's invocation of tools, and triggers approval request workflows according to the predefined rules.
 
  * Intervention Enforcement:
  : It accepts runtime override instructions delivered from ICON client, and executes corresponding immediate actions on specific running agent instance, such as suspending ongoing agent operation while retaining a snapshot of the execution state and context for recovery, or reversing a specific action taken by the agent.
