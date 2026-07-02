@@ -218,7 +218,7 @@ OBS-3: Metrics Collection
 : The framework MUST support collection of metrics characterizing agent operational health, including action execution latency, error rates, token consumption, resource usage, task completion rates, and confidence calibration.
 
 OBS-4: Multi-Agent Correlation
-: The framework MUST support logging and trace correlation across distributed multiple agent execution, supporting querying and analysis.
+: The framework SHOULD support logging and trace correlation across multiple agent execution, supporting querying and analysis.
 
 ## Control Requirements
 
