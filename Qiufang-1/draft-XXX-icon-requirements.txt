@@ -160,9 +160,9 @@ Table of Contents
       operator, an automated high-privilege governance system, or an
       orchestrator.
 
-   context:  The data, interaction history, and situational parameters
-      that allow AI agents to remember the history of a specific
-      interaction over multiple turns.
+   context:  The network operational data, interaction history, and
+      situational network parameters that allow AI agents to remember
+      the history of a specific interaction over multiple turns.
 
 3.  Existing Mechanisms for Agent Observability, Control, and
     Intervention
