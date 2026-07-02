@@ -82,17 +82,18 @@ This document does not specify a particular protocol, data model, or implementat
 
  This document defines the following terms:
 
-Observability:
+observability:
 : The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling a supervisor to understand what the agent is doing and why it behaves in a specific manner.
 
-Control:
+control:
 : A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
 
-Intervention:
+intervention:
 : A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
-Supervisor:
-:The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege governance system, or an orchestrator.
+supervisor:
+: The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege governance system, or an orchestrator.
+
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
@@ -223,13 +224,13 @@ OBS-4: Multi-Agent Correlation
 ## Control Requirements
 
 CTL-1: Access and Permission
-: The framework MUST provide mechanisms to define and enforce what systems, actions, skills, tools, data fields, and network domain an agent is permitted to access and operate.
+: The framework MUST provide mechanisms to define and enforce what systems, actions (e.g., network management protocol operations), skills, tools, data fields (e.g., datastore or YANG data nodes), and network domain an agent is permitted to access and operate.
 
 CTL-2: Intent Validation and Alignment
 : The framework MUST ensure the agent validate intents from the operator or other agents before execution. It MUST also ensure the agent optimize for what the operator actually intends.
 
 CTL-3: Temporal and Data/Context Validity
-: The framework MUST ensure the agent is acting within authorized time windows and under valid operational conditions such as accurate context and data.
+: The framework MUST ensure the agent is acting within authorized time windows and under valid operational conditions such as accurate context and data (e.g., network operational state, configuration).
 
 CTL-4: Authorization and Approval (Escalation)
 : The framework MUST support the designation of certain actions or decisions as requiring explicit human approval before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route approval requests sequentially to designated personnel.
@@ -247,7 +248,16 @@ INT-2: Containment
 : The supervisor must be able to limit the extend of a failure (blast radius). Stop further harm from accumulating without necessarily reversing what has already occurred.
 
 INT-3: Rollback and Recovery
-: The supervisor must be able to reverse actions already taken by an agent. Can be a single transaction or a coordinated cross-system reversal of an entire multi-agent workflow.
+: The supervisor must be able to reverse actions already taken by an agent. The framework MUST support multiple granularities of action rollback.
+Based on the severity and impact of the failure, the rollback granularities SHOULD include:
+
+ * Agent workflow level:
+ : Reverts a specific step or a subset of execution steps within the agent's execution chain, without canceling the overall task. This is applicable for localized errors. For example, When an agent is onboarding a network device, the supervisor
+     rolls back only a failed post-configuration script execution step while
+     keeping the successfully downloaded boot image.
+
+ * Agent task level
+ : Reverts an entire task execution, performing a comprehensive rollback of all network operations introduced since the initiation of the task. This is used as an emergency mechanism for severe failures where the agent's entire execution is failed. For example, when an agent fails to provision a network service, the supervisor triggers a full task rollback to wipe out the entire provisioning attempts across all affected nodes.
 
 INT-4: Escalation
 : The supervisor must be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.
