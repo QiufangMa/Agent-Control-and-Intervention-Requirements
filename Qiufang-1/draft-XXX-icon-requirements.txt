@@ -160,6 +160,10 @@ Table of Contents
       operator, an automated high-privilege governance system, or an
       orchestrator.
 
+   context:  The data, interaction history, and situational parameters
+      that allow AI agents to remember the history of a specific
+      interaction over multiple turns.
+
 3.  Existing Mechanisms for Agent Observability, Control, and
     Intervention
 
@@ -266,7 +270,7 @@ Table of Contents
          operators.  A human operator could either approve, reject, or
          modify the agent's pending action sequence.
 
-   *  Emergancy Intervention Trigger:  In the scenario of an unforeseen
+   *  Emergency Intervention Trigger:  In the scenario of an unforeseen
          and deviated agent behavior (e.g., an agent entering an
          infinite inference loop or executing based on outdated data or
          incorrect assumption), human oversight allows immediate, manual
@@ -443,6 +447,18 @@ Table of Contents
          provision a network service, the supervisor triggers a full
          task rollback to wipe out the entire provisioning attempts
          across all affected nodes.
+
+   *  Agent context level  Reverts all network operations across
+         multiple related tasks bound by the same context.  This acts as
+         an ultimate rollback mechanism to reset the entire multi-turn
+         interaction or back to its original historical baseline.  For
+         example, during a multi-turn network troubleshooting
+         conversation, an agent executes three tasks under the same
+         context to mitigate an anomaly.  If supervisor realizes the
+         entire investigation pathway was flawed, they may select
+         context level rollback to comprehensively wipe out all
+         configuration changes made across all three tasks in this
+         specific context.
 
    INT-4: Escalation  The supervisor must be able to route decisions,
       alerts, and conflicts to a higher authority.  Used when the
