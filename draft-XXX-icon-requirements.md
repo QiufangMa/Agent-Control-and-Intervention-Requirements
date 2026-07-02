@@ -95,7 +95,7 @@ supervisor:
 : The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege governance system, or an orchestrator.
 
 context:
-: The data, interaction history, and situational parameters that allow AI agents to remember the history of a specific interaction over multiple turns.
+: The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
