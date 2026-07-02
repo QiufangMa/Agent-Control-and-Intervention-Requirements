@@ -58,7 +58,7 @@ informative:
 
 This document defines architecture and a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
 
-It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to mitigate agent unreliability issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
+It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity.
 
 
 --- middle
