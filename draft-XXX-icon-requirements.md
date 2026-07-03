@@ -295,7 +295,7 @@ INT-4: Correction
  : Adjusting the agent's generating configuration, tool selections, parameters, or execution order before they are applied to the network.
 
 
-INT-4: Auditability and Accountability
+INT-5: Auditability and Accountability
 : The framework MUST support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime duration, cost), and traceability from failure through intervention to recovery.
 This post-failure capability MUST enable accountability and quantify operational impact.
 
