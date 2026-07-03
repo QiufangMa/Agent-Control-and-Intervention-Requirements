@@ -58,7 +58,7 @@ informative:
 
 This document defines architecture and a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
 
-It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to mitigate agent unreliability issues, and to minimize the negative impacts that agents might cause to networks when they deviate from expected behaviors.
+It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity.
 
 
 --- middle
@@ -82,17 +82,20 @@ This document does not specify a particular protocol, data model, or implementat
 
  This document defines the following terms:
 
-Observability:
+observability:
 : The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling a supervisor to understand what the agent is doing and why it behaves in a specific manner.
 
-Control:
+control:
 : A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
 
-Intervention:
+intervention:
 : A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
-Supervisor:
-:The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege orchestration system, or an orchestrator.
+supervisor:
+: The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege governance system, or an orchestrator.
+
+context:
+: The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
@@ -163,7 +166,7 @@ Human oversight represents the top-level authority of the agent guardrail. It pr
  * Escalation Handling:
  : When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.
 
- * Emergancy Intervention Trigger:
+ * Emergency Intervention Trigger:
  : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).
 
  * Post-Execution Feedback:
@@ -192,10 +195,10 @@ In practical deployments, ICON client could be embedded within network managemen
 ICON enforcement component serves as the unified bridge between Agent supervision signals and native Agent execution workflows. It abstracts heterogenous agent runtime and exposes standardized ICON interaction endpoints.
 
  * Observability Enforcement:
- : It collects raw runtime observation data from local multi-agent systems, normalizes raw logs, traces and metrics into unified formats, and transmits observation streams upward to the remote ICON Client for centralized storage, analysis, and visualization.
+ : It collects raw runtime observation data from local multi-agent systems, normalizes raw logs, traces and metrics into unified formats, and transmits observation streams upward to the remote ICON client for centralized storage, analysis, and visualization.
 
  * Control Enforcement:
- : It receives and enforces operational constraint rules or policies pushed by ICON Client as a Policy Enforcement Point (PEP) {{?RFC3198}}. Examples include access control for the agent's invocation of tools, and triggers approval request workflows according to the predefined rules.
+ : It receives and enforces operational constraint rules or policies pushed by ICON client as a Policy Enforcement Point (PEP) {{?RFC3198}}. Examples include access control for the agent's invocation of tools, and triggers approval request workflows according to the predefined rules.
 
  * Intervention Enforcement:
  : It accepts runtime override instructions delivered from ICON client, and executes corresponding immediate actions on specific running agent instance, such as suspending ongoing agent operation while retaining a snapshot of the execution state and context for recovery, or reversing a specific action taken by the agent.
@@ -218,18 +221,18 @@ OBS-3: Metrics Collection
 : The framework MUST support collection of metrics characterizing agent operational health, including action execution latency, error rates, token consumption, resource usage, task completion rates, and confidence calibration.
 
 OBS-4: Multi-Agent Correlation
-: The framework MUST support logging and trace correlation across distributed multiple agent execution, supporting querying and analysis.
+: The framework SHOULD support logging and trace correlation across multiple agent execution, supporting querying and analysis.
 
 ## Control Requirements
 
 CTL-1: Access and Permission
-: The framework MUST provide mechanisms to define and enforce what systems, actions, skills, tools, data fields, and network domain an agent is permitted to access and operate.
+: The framework MUST provide mechanisms to define and enforce what systems, actions (e.g., network management protocol operations), skills, tools, data fields (e.g., datastore or YANG data nodes), and network domain an agent is permitted to access and operate.
 
 CTL-2: Intent Validation and Alignment
 : The framework MUST ensure the agent validate intents from the operator or other agents before execution. It MUST also ensure the agent optimize for what the operator actually intends.
 
 CTL-3: Temporal and Data/Context Validity
-: The framework MUST ensure the agent is acting within authorized time windows and under valid operational conditions such as accurate context and data.
+: The framework MUST ensure the agent is acting within authorized time windows and under valid operational conditions such as accurate context and data (e.g., network operational state, configuration).
 
 CTL-4: Authorization and Approval (Escalation)
 : The framework MUST support the designation of certain actions or decisions as requiring explicit human approval before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route approval requests sequentially to designated personnel.
@@ -247,7 +250,19 @@ INT-2: Containment
 : The supervisor must be able to limit the extend of a failure (blast radius). Stop further harm from accumulating without necessarily reversing what has already occurred.
 
 INT-3: Rollback and Recovery
-: The supervisor must be able to reverse actions already taken by an agent. Can be a single transaction or a coordinated cross-system reversal of an entire multi-agent workflow.
+: The supervisor must be able to reverse actions already taken by an agent. The framework MUST support multiple granularities of action rollback.
+Based on the severity and impact of the failure, the rollback granularities SHOULD include:
+
+ * Agent workflow level:
+ : Reverts a specific step or a subset of execution steps within the agent's execution chain, without canceling the overall task. This is applicable for localized errors. For example, When an agent is onboarding a network device, the supervisor
+     rolls back only a failed post-configuration script execution step while
+     keeping the successfully downloaded boot image.
+
+ * Agent task level
+ : Reverts an entire task execution, performing a comprehensive rollback of all network operations introduced since the initiation of the task. This is used as an emergency mechanism for severe failures where the agent's entire execution is failed. For example, when an agent fails to provision a network service, the supervisor triggers a full task rollback to wipe out the entire provisioning attempts across all affected nodes.
+
+ * Agent context level
+ : Reverts all network operations across multiple related tasks bound by the same context. This acts as an ultimate rollback mechanism to reset the entire multi-turn interaction or back to its original historical baseline. For example, during a multi-turn network troubleshooting conversation, an agent executes three tasks under the same context to mitigate an anomaly. If supervisor realizes the entire investigation pathway was flawed, they may select context level rollback to comprehensively wipe out all configuration changes made across all three tasks in this specific context.
 
 INT-4: Escalation
 : The supervisor must be able to route decisions, alerts, and conflicts to a higher authority. Used when the current level cannot (or should not) resolve the situation without supervision.
