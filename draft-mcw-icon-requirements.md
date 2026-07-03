@@ -3,7 +3,7 @@ title: "Architecture and Requirements for Observability, Control and Interventio
 abbrev: "icon requirements"
 category: info
 
-docname: draft-XXX-icon-requirements-latest
+docname: draft-mcw-icon-requirements-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
