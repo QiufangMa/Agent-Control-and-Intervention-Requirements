@@ -185,10 +185,10 @@ Table of Contents
    systems.  However, they are facing severe limitations when applied to
    AI agents.  For example, existing logging practices only record what
    action was taken, completely missing why it was taken, including the
-   agent's internal reasoning provenance and confidence scores. existing
-   tracing mechanism designed for static and linear execution path also
-   cannot capture the complex and dynamic execution trajectories of AI
-   agents.
+   agent's internal reasoning provenance and confidence scores.
+   Existing tracing mechanism designed for static and linear execution
+   path also cannot capture the complex and dynamic execution
+   trajectories of AI agents.
 
    Existing AI guardrails primarily operate at static boundaries, such
    as input/output validation and pre-action checks.  These mechanisms
@@ -197,7 +197,7 @@ Table of Contents
    can be anticipated and encoded in static rules.  As AI systems
    increasingly operate in non-deterministic environments, these static
    measures are proving insufficient as they cannot detect, interrupt,
-   and recover from unanticipated behaviours.
+   and recover from unanticipated behaviors.
 
    Although there are some modern agent systems that provide interrupt
    or kill switch capabilities, they remain framework-specific,
@@ -256,8 +256,8 @@ Table of Contents
 
    Agent supervision layer is the Agent supervision and management layer
    which is used to manage, monitor, and regulate autonomous AI agents.
-   It might include other technical and operational pilars such as agent
-   identity management, which are out of the scope of ICON.
+   It might include other technical and operational pillars such as
+   agent identity management, which are out of the scope of ICON.
 
 4.1.1.  Human Oversight
 
@@ -313,8 +313,8 @@ Table of Contents
    *  Observability:  It receives normalized observation streams
          transmitted from downstream ICON enforcement components.  It
          provides human operators with comprehensive agent behavioral
-         visibility and identifying operational anomalies or performance
-         drifts.
+         visibility and the ability to identify operational anomalies or
+         performance drifts.
 
    *  Control:  It acts as the centralized Policy Decision Point (PDP)
          [RFC3198] that translates human operational guidelines into
@@ -334,7 +334,7 @@ Table of Contents
 
    In practical deployments, ICON client could be embedded within
    network management systems/OSS, an external Agent supervision or
-   management platform, or a even upper-layer supervisor Agent.
+   management platform, or even an upper-layer supervisor Agent.
 
 4.2.  ICON Enforcement Component (ICON Server)
 
@@ -395,7 +395,7 @@ Table of Contents
       completion rates.
 
    OBS-4: Multi-Agent Correlation  The framework SHOULD support logging
-      and trace correlation across multiple agent execution, supporting
+      and trace correlation across multiple agent executions, supporting
       querying and analysis that correlates agentic actions across
       multiple network domains, devices, or protocol layers (e.g.,
       tracking a cross-domain network service provisioning involving
