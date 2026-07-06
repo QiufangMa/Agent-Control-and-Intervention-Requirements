@@ -89,7 +89,6 @@ This document does not specify a particular protocol, data model, or implementat
  * Agent Observability
 
  * Intervention
- 
  * Control
 
  * Human Oversight
