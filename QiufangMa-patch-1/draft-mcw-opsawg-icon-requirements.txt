@@ -77,7 +77,7 @@ Table of Contents
    3.  Existing Mechanisms for Agent Observability, Control, and
            Intervention
    4.  Architectural Framework for ICON
-     4.1.  Agent Governance Plane
+     4.1.  Agent Supervision Plane
        4.1.1.  Human Oversight
        4.1.2.  ICON Client
      4.2.  ICON Enforcement Component (ICON Server)
@@ -159,8 +159,8 @@ Table of Contents
 
    supervisor:  The entity responsible for monitoring, controlling, and
       intervening in the agent's lifecycle.  A supervisor can be a human
-      operator, an automated high-privilege governance system, or an
-      orchestrator.
+      operator, an automated high-privilege agent management system, or
+      an orchestrator.
 
    context:  The network operational data, interaction history, and
       situational network parameters that allow AI agents to remember
@@ -209,7 +209,7 @@ Table of Contents
    to derive the requirements specified in Section 5.
 
        +----------------------------------------------------------+
-       |     Agent Governance Plane                               |
+       |     Agent Supervision Plane                              |
        |     +-----------------------------------------------+    |
        |     |             Human Oversight                   |    |
        |     +-----------------------------------------------+    |
@@ -247,9 +247,9 @@ Table of Contents
 
                         Figure 1: ICON Architecture
 
-4.1.  Agent Governance Plane
+4.1.  Agent Supervision Plane
 
-   Agent governance layer is the Agent supervision and management layer
+   Agent supervision layer is the Agent supervision and management layer
    which is used to manage, monitor, and regulate autonomous AI agents.
    It might include other technical and operational pilars such as agent
    identity management, which are out of the scope of ICON.
@@ -257,9 +257,9 @@ Table of Contents
 4.1.1.  Human Oversight
 
    Human oversight represents the top-level authority of the agent
-   governance.  It provides the post-execution feedback, injects global
-   policies, reviews agent escalation requests, and issues high-level
-   intervention commands during crises or anomalies.
+   supervision and management.  It provides the post-execution feedback,
+   injects global policies, reviews agent escalation requests, and
+   issues high-level intervention commands during crises or anomalies.
 
    *  Policy and Constraint Injection:  Human operators could express
          high-level operational constraints or boundaries.  These
@@ -328,8 +328,8 @@ Table of Contents
          requests that proactively require human intervention.
 
    In practical deployments, ICON client could be embedded within
-   network management systems/OSS, an external Agent governance
-   platform, or a even upper-layer supervisor Agent.
+   network management systems/OSS, an external Agent supervision or
+   management platform, or a even upper-layer supervisor Agent.
 
 4.2.  ICON Enforcement Component (ICON Server)
 
