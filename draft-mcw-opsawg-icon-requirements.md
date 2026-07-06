@@ -163,7 +163,7 @@ This section describes the reference architecture for ICON. The architecture def
 
 ## Agent Supervision Plane
 
-Agent supervision layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pillars such as agent identity management, which are out of the scope of ICON.
+Agent supervision plane is the Agent supervision and management capabilities which are used to manage, monitor, and regulate autonomous AI agents. It is logically decoupled from the agent execution plane. Note that agent supervision might include other technical and operational pillars such as agent identity management, which are out of the scope of ICON.
 
 ### Human Oversight
 
@@ -265,8 +265,10 @@ CTL-6: Global and Dynamic Boundary Adaptation
 INT-1: Execution Interruption
 : The supervisor MUST be able to immediately stop or redirect a running
    agent's runtime execution. The framework MUST support a temporary
-   operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding further action), as well as a hard stop that terminates
-   execution with or without instant configuration rollback when an agent is actively causing network instability.
+   operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding on further action), as well as a hard stop that terminates
+   execution with or without instant configuration rollback when an agent is actively causing network instability. Emergency intervention operations (e.g., pausing, terminating) MUST be executed independently of
+   the agent's internal LLM reasoning state or responsiveness. I.e., the framework MUST support out-of-band emergency pause or kill-switch signals in cases where an agent encounters a major failure (e.g.,
+   infinite reasoning loops, deadlocks) or becomes totally unresponsive.
 
 INT-2: Rollback and Recovery
 : The supervisor MUST be able to reverse actions already taken by an agent. The framework MUST support multiple granularities of action rollback.
