@@ -60,7 +60,7 @@ informative:
 
 --- abstract
 
-This document defines architecture and a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
+This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents.
 
 It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity.
 
@@ -73,9 +73,10 @@ AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg
 
 Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.
 
-This document defines architecture for ICON — Intervention, Control, and Observability for Network Management Agents. It also emphasizes essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention.
+The operational problems, architectural challenges, and technical gaps regarding the observability, control, and intervention of autonomous network management agents are thoroughly detailed in {{?I-D.wnd-opsawg-icon-ps}}.
+This document builds upon those identified gaps to specify a set of essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and Observability for Network Management Agents.
 
-This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardized the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
+This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardize the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
 
 This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.
 
@@ -83,17 +84,16 @@ This document does not specify a particular protocol, data model, or implementat
 
 {::boilerplate bcp14-tagged}
 
+ This document uses the following terms defined in {{!I-D.wnd-opsawg-icon-ps}}:
+
+ * Agent Observability
+
+ * Intervention
+ * Control
+
+ * Human Oversight
 
  This document defines the following terms:
-
-observability:
-: The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling a supervisor to understand what the agent is doing and why it behaves in a specific manner.
-
-control:
-: A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
-
-intervention:
-: A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
 supervisor:
 : The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege agent supervision system, or an orchestrator.
@@ -108,9 +108,9 @@ context:
 
 After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the supervisor.
 
-Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, <!-- as analyzed in {{I-D.wnd-icon-problem-statement}}, --> they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
+Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, as analyzed in {{?I-D.wnd-opsawg-icon-ps}}, they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
 
-Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviours.
+Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviors.
 
 Although there are some modern agent systems that provide interrupt or kill switch capabilities, they remain framework-specific, insufficient, or proprietary.
 
@@ -163,7 +163,7 @@ This section describes the reference architecture for ICON. The architecture def
 
 ## Agent Supervision Plane
 
-Agent supervision layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
+Agent supervision plane is the Agent supervision and management capabilities which are used to manage, monitor, and regulate autonomous AI agents. It is logically decoupled from the agent execution plane. Note that agent supervision might include other technical and operational pillars such as agent identity management, which are out of the scope of ICON.
 
 ### Human Oversight
 
@@ -189,7 +189,7 @@ It is worth mentioning that human operators rarely send raw ICON protocol payloa
 The ICON client is the logical entity which acts on behalf of human operators to monitor and control Agents, and to intervene in their behaviors when necessary. It is responsible for the multi-Agent observability aggregation, policy control, and emergency intervention logic for heterogeneous multi-Agent autonomous networks.
 
  * Observability:
- : It receives normalized observation streams transmitted from downstream ICON enforcement components. It provides human operators with comprehensive agent behavioral visibility and identifying operational anomalies or performance drifts.
+ : It receives normalized observation streams transmitted from downstream ICON enforcement components. It provides human operators with comprehensive agent behavioral visibility and the ability to identify operational anomalies or performance drifts.
 
  * Control:
  : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human operational guidelines into agent behavioral boundaries, guardrails, or operational constraints. It dynamically pushes a set of structured rules or policy constraints down to enforcement components.
@@ -197,7 +197,7 @@ The ICON client is the logical entity which acts on behalf of human operators to
  * Intervention:
  : It hosts the emergency orchestration logic required to reactively instruct agents in response to boundary violations, anomalies, failures, or operational risks. Upon detecting critical policy violations or receiving manual override commands from human oversight, it generates specific instructions (such as pause or terminate) and pushes them down to the enforcement component. In addition, it also receives upstream messages initiated by agents, such as escalation requests that proactively require human intervention.
 
-In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent supervision or management platform, or a even upper-layer supervisor Agent.
+In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent supervision or management platform, or even an upper-layer supervisor Agent.
 
 ## ICON Enforcement Component (ICON Server)
 
@@ -230,7 +230,7 @@ OBS-3: Agent Metrics Collection
 : The framework MUST support collection of metrics characterizing agent operational health, including action execution latency, failed network management protocol (e.g., NETCONF or RESTCONF) operation rates, configuration rollback rates, token consumption and task completion rates.
 
 OBS-4: Multi-Agent Correlation
-: The framework SHOULD support logging and trace correlation across multiple agent execution, supporting querying and analysis that correlates agentic actions across multiple network domains, devices, or protocol layers (e.g., tracking a cross-domain network service provisioning involving multiple autonomous agents).
+: The framework SHOULD support logging and trace correlation across multiple agent executions, supporting querying and analysis that correlates agentic actions across multiple network domains, devices, or protocol layers (e.g., tracking a cross-domain network service provisioning involving multiple autonomous agents).
 
 ## Control Requirements
 
@@ -265,8 +265,10 @@ CTL-6: Global and Dynamic Boundary Adaptation
 INT-1: Execution Interruption
 : The supervisor MUST be able to immediately stop or redirect a running
    agent's runtime execution. The framework MUST support a temporary
-   operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding further action), as well as a hard stop that terminates
-   execution with or without instant configuration rollback when an agent is actively causing network instability.
+   operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding on further action), as well as a hard stop that terminates
+   execution with or without instant configuration rollback when an agent is actively causing network instability. Emergency intervention operations (e.g., pausing, terminating) MUST be executed independently of
+   the agent's internal LLM reasoning state or responsiveness. I.e., the framework MUST support out-of-band emergency pause or kill-switch signals in cases where an agent encounters a major failure (e.g.,
+   infinite reasoning loops, deadlocks) or becomes totally unresponsive.
 
 INT-2: Rollback and Recovery
 : The supervisor MUST be able to reverse actions already taken by an agent. The framework MUST support multiple granularities of action rollback.
