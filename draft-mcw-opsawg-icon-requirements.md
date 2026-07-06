@@ -108,9 +108,9 @@ context:
 
 After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the supervisor.
 
-Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, <!-- as analyzed in {{I-D.wnd-icon-problem-statement}}, --> they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
+Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, <!-- as analyzed in {{I-D.wnd-icon-problem-statement}}, --> they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
 
-Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviours.
+Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviors.
 
 Although there are some modern agent systems that provide interrupt or kill switch capabilities, they remain framework-specific, insufficient, or proprietary.
 
@@ -163,7 +163,7 @@ This section describes the reference architecture for ICON. The architecture def
 
 ## Agent Supervision Plane
 
-Agent supervision layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pilars such as agent identity management, which are out of the scope of ICON.
+Agent supervision layer is the Agent supervision and management layer which is used to manage, monitor, and regulate autonomous AI agents. It might include other technical and operational pillars such as agent identity management, which are out of the scope of ICON.
 
 ### Human Oversight
 
@@ -189,7 +189,7 @@ It is worth mentioning that human operators rarely send raw ICON protocol payloa
 The ICON client is the logical entity which acts on behalf of human operators to monitor and control Agents, and to intervene in their behaviors when necessary. It is responsible for the multi-Agent observability aggregation, policy control, and emergency intervention logic for heterogeneous multi-Agent autonomous networks.
 
  * Observability:
- : It receives normalized observation streams transmitted from downstream ICON enforcement components. It provides human operators with comprehensive agent behavioral visibility and identifying operational anomalies or performance drifts.
+ : It receives normalized observation streams transmitted from downstream ICON enforcement components. It provides human operators with comprehensive agent behavioral visibility and the ability to identify operational anomalies or performance drifts.
 
  * Control:
  : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human operational guidelines into agent behavioral boundaries, guardrails, or operational constraints. It dynamically pushes a set of structured rules or policy constraints down to enforcement components.
@@ -197,7 +197,7 @@ The ICON client is the logical entity which acts on behalf of human operators to
  * Intervention:
  : It hosts the emergency orchestration logic required to reactively instruct agents in response to boundary violations, anomalies, failures, or operational risks. Upon detecting critical policy violations or receiving manual override commands from human oversight, it generates specific instructions (such as pause or terminate) and pushes them down to the enforcement component. In addition, it also receives upstream messages initiated by agents, such as escalation requests that proactively require human intervention.
 
-In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent supervision or management platform, or a even upper-layer supervisor Agent.
+In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent supervision or management platform, or even an upper-layer supervisor Agent.
 
 ## ICON Enforcement Component (ICON Server)
 
@@ -230,7 +230,7 @@ OBS-3: Agent Metrics Collection
 : The framework MUST support collection of metrics characterizing agent operational health, including action execution latency, failed network management protocol (e.g., NETCONF or RESTCONF) operation rates, configuration rollback rates, token consumption and task completion rates.
 
 OBS-4: Multi-Agent Correlation
-: The framework SHOULD support logging and trace correlation across multiple agent execution, supporting querying and analysis that correlates agentic actions across multiple network domains, devices, or protocol layers (e.g., tracking a cross-domain network service provisioning involving multiple autonomous agents).
+: The framework SHOULD support logging and trace correlation across multiple agent executions, supporting querying and analysis that correlates agentic actions across multiple network domains, devices, or protocol layers (e.g., tracking a cross-domain network service provisioning involving multiple autonomous agents).
 
 ## Control Requirements
 
