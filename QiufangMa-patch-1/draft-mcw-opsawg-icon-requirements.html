@@ -10,7 +10,7 @@
 <meta content="Qin Wu" name="author">
 <meta content="Luis. M. Contreras" name="author">
 <meta content="
-       This document defines architecture and a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents). 
+       This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents. 
        It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity. 
     " name="description">
 <meta content="xml2rfc 3.34.0" name="generator">
@@ -1099,7 +1099,7 @@ svg {
 <h1 id="title">Architecture and Requirements for Observability, Control and Intervention of Network Management Agents</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines architecture and a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-abstract-2">It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
@@ -1237,8 +1237,9 @@ svg {
       </h2>
 <p id="section-1-1">AI agents are increasingly deployed for network management tasks <span>[<a href="#I-D.wmz-nmrg-agent-ndt-arch" class="cite xref">I-D.wmz-nmrg-agent-ndt-arch</a>]</span> — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network management, it also inevitably brings challenges such as hallucination and execution unreliability.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This document defines architecture for ICON — Intervention, Control, and Observability for Network Management Agents. It also emphasizes essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardized the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-3">The operational problems, architectural challenges, and technical gaps regarding the observability, control, and intervention of autonomous network management agents are thoroughly detailed in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>.
+This document builds upon those identified gaps to specify a set of essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and Observability for Network Management Agents.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardize the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.<a href="#section-1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1251,36 +1252,36 @@ svg {
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">This document defines the following terms:<a href="#section-2-2" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-2-3">
-        <dt id="section-2-3.1">observability:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.2">
-          <p id="section-2-3.2.1">The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling a supervisor to understand what the agent is doing and why it behaves in a specific manner.<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+<p id="section-2-2">This document uses the following terms defined in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-3.1">
+          <p id="section-2-3.1.1">Agent Observability<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.2">
+          <p id="section-2-3.2.1">Intervention<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.3">
+          <p id="section-2-3.3.1">Control<a href="#section-2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.4">
+          <p id="section-2-3.4.1">Human Oversight<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-4">This document defines the following terms:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-5">
+        <dt id="section-2-5.1">supervisor:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.2">
+          <p id="section-2-5.2.1">The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege agent supervision system, or an orchestrator.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-3.3">control:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.4">
-          <p id="section-2-3.4.1">A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
+<dt id="section-2-5.3">agent supervision:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.4">
+          <p id="section-2-5.4.1">The administrative and operational capabilities that continuously monitor, constrain, and guide agents' behaviors. Agent supervision retains the ultimate authority to modify, overrule, or terminate agent operations.<a href="#section-2-5.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-3.5">intervention:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.6">
-          <p id="section-2-3.6.1">A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.<a href="#section-2-3.6.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.7">supervisor:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.8">
-          <p id="section-2-3.8.1">The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege agent supervision system, or an orchestrator.<a href="#section-2-3.8.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.9">agent supervision:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.10">
-          <p id="section-2-3.10.1">The administrative and operational capabilities that continuously monitor, constrain, and guide agents' behaviors. Agent supervision retains the ultimate authority to modify, overrule, or terminate agent operations.<a href="#section-2-3.10.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.11">context:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.12">
-          <p id="section-2-3.12.1">The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.<a href="#section-2-3.12.1" class="pilcrow">¶</a></p>
+<dt id="section-2-5.5">context:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.6">
+          <p id="section-2-5.6.1">The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.<a href="#section-2-5.6.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1292,7 +1293,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-existing-mechanisms-for-age" class="section-name selfRef">Existing Mechanisms for Agent Observability, Control, and Intervention</a>
       </h2>
 <p id="section-3-1">After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the supervisor.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However,  they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-2">Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, as analyzed in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>, they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviors.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">Although there are some modern agent systems that provide interrupt or kill switch capabilities, they remain framework-specific, insufficient, or proprietary.<a href="#section-3-4" class="pilcrow">¶</a></p>
 <p id="section-3-5">These gaps motivate the architectural framework and requirements for agent observability, control, and intervention defined in <a href="#architecture" class="auto internal xref">Section 4</a> and <a href="#requirements" class="auto internal xref">Section 5</a>, respectively.<a href="#section-3-5" class="pilcrow">¶</a></p>
@@ -1708,6 +1709,10 @@ This post-failure capability <span class="bcp14">MUST</span> enable accountabili
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.wnd-opsawg-icon-ps">[I-D.wnd-opsawg-icon-ps]</dt>
+        <dd>
+<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Ceccarelli, D.</span>, <span class="refAuthor">Li, Z.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">Q. Ma</span>, <span class="refTitle">"Problem Statement for Observability, Intervention and Control (I&amp;C) in Multi-Agent Autonomous Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wnd-opsawg-icon-ps-00</span>, <time datetime="2026-07-05" class="refDate">5 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-00">https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
