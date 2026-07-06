@@ -4,10 +4,10 @@
 
 This is the working area for the individual Internet-Draft, "Reuqirements for Observability, Control and Intervention of Network Management Agents".
 
-* [Editor's Copy](https://QiufangMa.github.io/Agent-Control-and-Intervention-Requirements/#go.draft-XXX-icon-requirements.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-XXX-icon-requirements)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-XXX-icon-requirements)
-* [Compare Editor's Copy to Individual Draft](https://QiufangMa.github.io/Agent-Control-and-Intervention-Requirements/#go.draft-XXX-icon-requirements.diff)
+* [Editor's Copy](https://QiufangMa.github.io/Agent-Control-and-Intervention-Requirements/#go.draft-mcw-opsawg-icon-requirements.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mcw-opsawg-icon-requirements)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mcw-opsawg-icon-requirements)
+* [Compare Editor's Copy to Individual Draft](https://QiufangMa.github.io/Agent-Control-and-Intervention-Requirements/#go.draft-mcw-opsawg-icon-requirements.diff)
 
 
 ## Contributing
