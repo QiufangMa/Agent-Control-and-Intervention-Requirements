@@ -96,7 +96,10 @@ intervention:
 : A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
 supervisor:
-: The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege agent management system, or an orchestrator.
+: The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege agent supervision system, or an orchestrator.
+
+agent supervision:
+: The administrative and operational capabilities that continuously monitor, constrain, and guide agents' behaviors. Agent supervision retains the ultimate authority to modify, overrule, or terminate agent operations.
 
 context:
 : The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.
