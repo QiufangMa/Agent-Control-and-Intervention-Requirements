@@ -570,7 +570,8 @@ Table of Contents
 
 Acknowledgments
 
-   TODO acknowledge.
+   The authors of this document would also like to thank Benoit Claise,
+   Daniele Ceccarelli for review and comments.
 
 Contributors
 
