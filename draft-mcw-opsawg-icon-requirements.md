@@ -91,8 +91,8 @@ This document does not specify a particular protocol, data model, or implementat
  * Intervention
  
  * Control
- 
- * Human Oversight 
+
+ * Human Oversight
 
  This document defines the following terms:
 
