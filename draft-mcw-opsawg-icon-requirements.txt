@@ -8,12 +8,14 @@ Intended status: Informational                             D. Ceccarelli
 Expires: 7 January 2027                                            Cisco
                                                                    Q. Wu
                                                                   Huawei
+                                                         L. M. Contreras
+                                                              Telefonica
                                                              6 July 2026
 
 
       Architecture and Requirements for Observability, Control and
                Intervention of Network Management Agents
-                   draft-XXX-icon-requirements-latest
+               draft-mcw-opsawg-icon-requirements-latest
 
 Abstract
 
@@ -599,3 +601,8 @@ Authors' Addresses
    210012
    China
    Email: bill.wu@huawei.com
+
+
+   Luis. M. Contreras
+   Telefonica
+   Email: luismiguel.contrerasmurillo@telefonica.com
