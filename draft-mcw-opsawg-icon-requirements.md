@@ -3,7 +3,7 @@ title: "Architecture and Requirements for Observability, Control and Interventio
 abbrev: "icon requirements"
 category: info
 
-docname: draft-XXX-icon-requirements-latest
+docname: draft-mcw-opsawg-icon-requirements-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
@@ -39,6 +39,10 @@ author:
    code: 210012
    country: China
    email: bill.wu@huawei.com
+ -
+   fullname: Luis. M. Contreras
+   organization: Telefonica
+   email: luismiguel.contrerasmurillo@telefonica.com
 
 contributor:
 -
