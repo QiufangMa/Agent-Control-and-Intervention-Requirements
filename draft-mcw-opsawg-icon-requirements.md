@@ -60,7 +60,7 @@ informative:
 
 --- abstract
 
-This document defines architecture and a set of requirements for ICON (Observability, Control, and Intervention for Network Management Agents).
+This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents.
 
 It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity.
 
@@ -73,9 +73,10 @@ AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg
 
 Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.
 
-This document defines architecture for ICON — Intervention, Control, and Observability for Network Management Agents. It also emphasizes essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention.
+The operational problems, architectural challenges, and technical gaps regarding the observability, control, and intervention of autonomous network management agents are thoroughly detailed in {{?I-D.wnd-opsawg-icon-ps}}.
+This document builds upon those identified gaps to specify a set of essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and Observability for Network Management Agents.
 
-This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardized the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
+This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardize the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
 
 This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.
 
@@ -83,17 +84,17 @@ This document does not specify a particular protocol, data model, or implementat
 
 {::boilerplate bcp14-tagged}
 
+ This document uses the following terms defined in {{!I-D.wnd-opsawg-icon-ps}}:
+
+ * Agent Observability
+
+ * Intervention
+ 
+ * Control
+ 
+ * Human Oversight 
 
  This document defines the following terms:
-
-observability:
-: The visibility into an agent's internal state, decision-making logic, and workflow execution from its external telemetry outputs (e.g., logs, traces, metrics), enabling a supervisor to understand what the agent is doing and why it behaves in a specific manner.
-
-control:
-: A preventive mechanism that establishes a deterministic operational boundary for the agent before and during agent execution. By specifying the agent's behavior scopes, operational constraints, and security baselines, it fundamentally mitigates abnormal behaviors from agents.
-
-intervention:
-: A reactive and emergency mechanism to intervene or take control of an agent with boundary violations, anomalies, failures, or risks. It addresses situations where agent control is insufficient, bypassed, or inapplicable.
 
 supervisor:
 : The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege agent supervision system, or an orchestrator.
@@ -108,7 +109,7 @@ context:
 
 After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the supervisor.
 
-Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, <!-- as analyzed in {{I-D.wnd-icon-problem-statement}}, --> they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
+Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, as analyzed in {{?I-D.wnd-opsawg-icon-ps}}, they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
 
 Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviors.
 
