@@ -95,12 +95,6 @@ This document does not specify a particular protocol, data model, or implementat
 
  This document defines the following terms:
 
-supervisor:
-: The entity responsible for monitoring, controlling, and intervening in the agent's lifecycle. A supervisor can be a human operator, an automated high-privilege agent supervision system, or an orchestrator.
-
-agent supervision:
-: The administrative and operational capabilities that continuously monitor, constrain, and guide agents' behaviors. Agent supervision retains the ultimate authority to modify, overrule, or terminate agent operations.
-
 context:
 : The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.
 
@@ -122,52 +116,45 @@ These gaps motivate the architectural framework and requirements for agent obser
 This section describes the reference architecture for ICON. The architecture defined in {{arch}} serves as the structural foundation to derive the requirements specified in {{requirements}}.
 
 ~~~~
-+----------------------------------------------------------+
-|     Agent Supervision Plane                              |
-|     +-----------------------------------------------+    |
-|     |             Human Oversight                   |    |
-|     +-----------------------------------------------+    |
-|     +-----------------------------------------+          |
-|     |ICON Client                              |          |
-|     |  +-------------++-------++------------+ |          |
-|     |  |Observability||Control||Intervention| |   ...    |
-|     |  +-----^-------++--+----++------^-----+ |          |
-|     +--------+-----------+------------+-------+          |
-+--------------+-----------+------------+------------------+
-               |           |            |
-               |           |            | ICON Interface
-               |           |            |
-+--------------+-----------v------------v------------------+
-|              ICON Enforcement Component                  |
-+----------------------------------------------------------+
-+----------------------------------------------------------+
-|    Agent Execution Plane                                 |
-|    +-----------+    +-----------+       +-----------+    |
-|    |           |    |           |       |           |    |
-|    |  Agent 1  <---->  Agent 2  <--...-->  Agent n  |    |
-|    |           |    |           |       |           |    |
-|    +-----^-----+    +-----^-----+       +-----^-----+    |
-|          |                |                   |          |
-|    +-----v----------------v-------------------v-----+    |
-|    |              Function Modules & Tools          |    |
-|    +------------------------------------------------+    |
-+----------------------------^-----------------------------+
-                             |
-                             | Interaction
-                             |
-+----------------------------v-----------------------------+
-|                Network Infrastructure                    |
-+----------------------------------------------------------+
++-----------------------------------------------------+
+|                    Human Oversight                  |
++--------------------------^--------------------------+
+                           |
+                           |
++--------------------------v--------------------------+
+|   Agent Management Plane                            |
+|                                                     |
+|   +-------------+    +-------+    +------------+    |
+|   |Observability|    |Control|    |Intervention|    |
+|   +-------------+    +-------+    +------------+    |
++-----------------------^--+--------------------------+
+                        |  |
+Agent Observability Data|  |Agent Control & Intervention Signals
+                        |  |
++-----------------------+--v--------------------------+
+|  Agent Execution Plane                              |
+|  +-----------+    +-----------+       +-----------+ |
+|  |           |    |           |       |           | |
+|  |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
+|  |           |    |           |       |           | |
+|  +-----^-----+    +-----^-----+       +-----^-----+ |
+|        |                |                   |       |
+|  +-----v----------------v-------------------v-----+ |
+|  |              Function Modules & Tools          | |
+|  +------------------------------------------------+ |
++--------------------------^--------------------------+
+                           |
+                           | Interaction
+                           |
++--------------------------v--------------------------+
+|              Network Infrastructure                 |
++-----------------------------------------------------+
 ~~~~
 {: #arch title="ICON Architecture" artwork-align="center"}
 
-## Agent Supervision Plane
+## Human Oversight
 
-Agent supervision plane is the Agent supervision and management capabilities which are used to manage, monitor, and regulate autonomous AI agents. It is logically decoupled from the agent execution plane. Note that agent supervision might include other technical and operational pillars such as agent identity management, which are out of the scope of ICON.
-
-### Human Oversight
-
-Human oversight represents the top-level authority of the agent supervision and management. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
+Human oversight represents the top-level authority of the agent management. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
 
  * Policy and Constraint Injection:
  : Human operators could express high-level operational constraints or boundaries. These intents are translated into machine-readable policies by ICON client and sent to the policy enforcement component.
@@ -182,38 +169,29 @@ Human oversight represents the top-level authority of the agent supervision and 
  : Beyond runtime intervention, operators could also provide a critical retrospective evaluation feedback. Following an incident, anomaly, or successful resolution, human operators may inject multi-dimensional feedback (e.g., critiquing the agent’s reasoning paths, correcting intermediate planning errors, or evaluating the quality of tool selection). This retrospective feedback could be used to update the prompt templates or refine downstream guardrail policies, preventing the recurrence of similar behavioral drifts.
 
 
-It is worth mentioning that human operators rarely send raw ICON protocol payloads directly to ICON enforcement component. They could use more flexible and human-friendly formatting such as natural language which is relayed to the ICON client to translate into structured ICON signals for normalization and forwarding.
+It is worth mentioning that human operators rarely send raw agent control or intervention protocol payloads directly. They could use more flexible and human-friendly formatting such as natural language which is relayed to the agent management plane to translate into structured control or intervention signals for normalization and distribution.
 
-### ICON Client
+## Agent Management Plane
 
-The ICON client is the logical entity which acts on behalf of human operators to monitor and control Agents, and to intervene in their behaviors when necessary. It is responsible for the multi-Agent observability aggregation, policy control, and emergency intervention logic for heterogeneous multi-Agent autonomous networks.
+Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the agent execution plane. Note that agent management plane might include other technical and operational pillars such as agent lifecycle management, which are out of the scope of this draft.
+
 
  * Observability:
- : It receives normalized observation streams transmitted from downstream ICON enforcement components. It provides human operators with comprehensive agent behavioral visibility and the ability to identify operational anomalies or performance drifts.
+ : It receives observation streams transmitted from downstream agent execution plane. It provides human operators with comprehensive agent behavioral visibility and the ability to identify operational anomalies or performance drifts.
 
- * Control:
- : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human operational guidelines into agent behavioral boundaries, guardrails, or operational constraints. It dynamically pushes a set of structured rules or policy constraints down to enforcement components.
+ * Policy Control:
+ : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human operational guidelines into agent behavioral boundaries, guardrails, or operational constraints. It dynamically pushes a set of structured rules or policy constraints down to agent execution plane.
 
- * Intervention:
+ * Emergency Intervention:
  : It hosts the emergency orchestration logic required to reactively instruct agents in response to boundary violations, anomalies, failures, or operational risks. Upon detecting critical policy violations or receiving manual override commands from human oversight, it generates specific instructions (such as pause or terminate) and pushes them down to the enforcement component. In addition, it also receives upstream messages initiated by agents, such as escalation requests that proactively require human intervention.
 
-In practical deployments, ICON client could be embedded within network management systems/OSS, an external Agent supervision or management platform, or even an upper-layer supervisor Agent.
+In practical deployments, agent management plane could be embedded within network management systems/OSS, an external Agent supervision or management platform, or even an upper-layer supervisor Agent.
 
-## ICON Enforcement Component (ICON Server)
+## Agent Execution Plane
 
-ICON enforcement component serves as the unified bridge between Agent supervision signals and native Agent execution workflows. It abstracts heterogenous agent runtime and exposes standardized ICON interaction endpoints.
+An Agent Execution Plane is the runtime environment where AI agents operate, invoke tools, and interact with the network infrastructure. It receives the high-level intent sent from the network operator, performs the LLM reasoning, and takes corresponding actions step-by-step. It might also route some of the execution to other agent. Each execution step might involve invoking tools, APIs, or agent skills. After task completion, it collects execution status, operational logs, and network state results, and delivers feedback and reports to the network operator.
 
- * Observability Enforcement:
- : It collects raw runtime observation data from local multi-agent systems, normalizes raw logs, traces and metrics into unified formats, and transmits observation streams upward to the remote ICON client for centralized storage, analysis, and visualization.
-
- * Control Enforcement:
- : It receives and enforces operational constraint rules or policies pushed by ICON client as a Policy Enforcement Point (PEP) {{?RFC3198}}. Examples include access control for the agent's invocation of tools, and triggers approval request workflows according to the predefined rules.
-
- * Intervention Enforcement:
- : It accepts runtime override instructions delivered from ICON client, and executes corresponding immediate actions on specific running agent instance, such as suspending ongoing agent operation while retaining a snapshot of the execution state and context for recovery, or reversing a specific action taken by the agent.
-
-In practical deployments, ICON enforcement component could be implemented at the AI Agent gateway, or deployed as a runtime wrapper around individual agent instances.
-
+The execution plane enforces policy enforcement at multiple critical points throughout the agent execution, including before agent task-processing, pre-action, and before delivering final responses to the operator. The plane also accepts emergency intervention instructions delivered from the agent management plane.
 
 
 # Requirements {#requirements}
@@ -229,8 +207,9 @@ OBS-2: Reasoning Provenance Capture
 OBS-3: Agent Metrics Collection
 : The framework MUST support collection of metrics characterizing agent operational health, including action execution latency, failed network management protocol (e.g., NETCONF or RESTCONF) operation rates, configuration rollback rates, token consumption and task completion rates.
 
-OBS-4: Multi-Agent Correlation
-: The framework SHOULD support logging and trace correlation across multiple agent executions, supporting querying and analysis that correlates agentic actions across multiple network domains, devices, or protocol layers (e.g., tracking a cross-domain network service provisioning involving multiple autonomous agents).
+
+OBS-4: Auditability and Accountability
+: The framework MUST support immutable audit logging of agent execution, supporting attribution of network outcomes to intent interpretation, LLM inference, tool/API invocation for post-incident audit and compliance review.
 
 ## Control Requirements
 
@@ -252,10 +231,12 @@ network state and configuration data.
 CTL-4: Authorization and Approval
 : The framework MUST support the designation of certain network operations as requiring explicit human approval/confirmation before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route escalation requests sequentially to designated personnel.
 
+<!--
 CTL-5: Failure and Liveness
 : The framework MUST allow to specify fallback behaviors when an agent encounters predefined failure modes (e.g., operation timeout, operation failures). Additionally, the framework MUST enable agents to periodically report their liveness and operational status for health monitoring.
+-->
 
-CTL-6: Global and Dynamic Boundary Adaptation
+CTL-5: Global and Dynamic Boundary Adaptation
 : The framework MUST support the injection of global coordination
    control policies across multi-agent environments, and enable dynamic
    adjustment (e.g., tighten the agent's permissible access from read-write to read-only) of operational bounds based on the network's current operational state.
@@ -303,10 +284,6 @@ INT-4: Correction
  * modifying pending actions or planned configuration changes
  : Adjusting the agent's generating configuration, tool selections, parameters, or execution order before they are applied to the network.
 
-
-INT-5: Auditability and Accountability
-: The framework MUST support attribution of failures to responsible entities (e.g., agents, humans, or systems), quantification of consequences (e.g., resource impact, downtime duration, cost), and traceability from failure through intervention to recovery.
-This post-failure capability MUST enable accountability and quantify operational impact.
 
 
 # Security Considerations
