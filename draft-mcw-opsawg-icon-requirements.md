@@ -209,24 +209,24 @@ OBS-3: Agent Metrics Collection
 
 
 OBS-4: Auditability and Accountability
-: The framework MUST support immutable audit logging of agent execution, supporting attribution of network outcomes to intent interpretation, LLM inference, tool/API invocation for post-incident audit and compliance review.
+: The framework MUST support immutable audit logging of agent execution, supporting attribution of network outcomes to intent interpretation, LLM inference, or tool/API invocation for post-incident audit and compliance review.
 
 ## Control Requirements
 
-CTL-1: Access and Permission
-: The framework MUST provide mechanisms to define and enforce fine-grained
-   operational boundaries for agents. This MUST include restricting the
-   agent's operational scope to specific network domains/areas, set of devices, protocols and tools. Furthermore, it MUST support YANG node-level access control, defining which configuration datastores, YANG data nodes, and RPCs an agent is permitted to read or modify.
-
-CTL-2: Intent Validation and Alignment
+CTL-1: Intent Validation and Alignment
 : The framework MUST ensure the agent validates high-level network intents
    received from network operators or upstream agents before execution.
    The agent MUST verify that the generated network configuration syntax
    and semantic align with the network intents and constraints.
 
-CTL-3: Temporal and Data/Context Validity
+CTL-2: Temporal and Data/Context Validity
 : The framework MUST ensure the agent operates within authorized network maintenance time windows. Additionally, the agent MUST validate the freshness and integrity of the context and
 network state and configuration data.
+
+CTL-3: Access and Permission
+: The framework MUST provide mechanisms to define and enforce fine-grained
+   operational boundaries for agents. This MUST include restricting the
+   agent's operational scope to specific network domains/areas, set of devices, protocols and tools. Furthermore, it MUST support YANG node-level access control, defining which configuration datastores, YANG data nodes, and RPCs an agent is permitted to read or modify.
 
 CTL-4: Authorization and Approval
 : The framework MUST support the designation of certain network operations as requiring explicit human approval/confirmation before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route escalation requests sequentially to designated personnel.
@@ -236,7 +236,7 @@ CTL-5: Failure and Liveness
 : The framework MUST allow to specify fallback behaviors when an agent encounters predefined failure modes (e.g., operation timeout, operation failures). Additionally, the framework MUST enable agents to periodically report their liveness and operational status for health monitoring.
 -->
 
-CTL-5: Global and Dynamic Boundary Adaptation
+CTL-5: Dynamic Boundary Adaptation
 : The framework MUST support the injection of global coordination
    control policies across multi-agent environments, and enable dynamic
    adjustment (e.g., tighten the agent's permissible access from read-write to read-only) of operational bounds based on the network's current operational state.
@@ -267,7 +267,7 @@ Based on the severity and impact of the failure, the rollback granularities SHOU
  : Reverts all network operations across multiple related tasks bound by the same context. This acts as an ultimate rollback mechanism to reset the entire multi-turn interaction or back to its original historical baseline. For example, during a multi-turn network troubleshooting conversation, an agent executes three tasks under the same context to mitigate an anomaly. If supervisor realizes the entire investigation pathway was flawed, they may select context level rollback to comprehensively wipe out all configuration changes made across all three tasks in this specific context.
 
 INT-3: Escalation
-: The framwork MUST support the mechanism to route operational decisions, anomalies, and conflicts to a higher authority. An escalation is used when the current level (operator or agent) cannot or should not resolve the situation without supervision. During an escalation event, the framework MUST preserve the agent's runtime context and its full reasoning provenance trail to enable a seamless handover.
+: The framwork MUST support the mechanism to allow the agent to route operational decisions, anomalies, and conflicts to a higher authority. An escalation is used when the current level (operator or agent) cannot or should not resolve the situation without supervision. During an escalation event, the framework MUST preserve the agent's runtime context and its full reasoning provenance trail to enable a seamless handover.
 
 INT-4: Correction
 : The supervisor MUST be able to correct an autonomous agent failure through any of the following mechanisms:
