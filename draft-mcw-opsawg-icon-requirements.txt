@@ -5,12 +5,12 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 17 January 2027                                           Cisco
+Expires: 19 January 2027                                           Cisco
                                                                    Q. Wu
                                                                   Huawei
                                                          L. M. Contreras
                                                               Telefonica
-                                                            16 July 2026
+                                                            18 July 2026
 
 
       Architecture and Requirements for Observability, Control and
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 January 2027.
+   This Internet-Draft will expire on 19 January 2027.
 
 Copyright Notice
 
@@ -363,29 +363,29 @@ Table of Contents
 
    OBS-4: Auditability and Accountability  The framework MUST support
       immutable audit logging of agent execution, supporting attribution
-      of network outcomes to intent interpretation, LLM inference, tool/
-      API invocation for post-incident audit and compliance review.
+      of network outcomes to intent interpretation, LLM inference, or
+      tool/API invocation for post-incident audit and compliance review.
 
 5.2.  Control Requirements
 
-   CTL-1: Access and Permission  The framework MUST provide mechanisms
+   CTL-1: Intent Validation and Alignment  The framework MUST ensure the
+      agent validates high-level network intents received from network
+      operators or upstream agents before execution.  The agent MUST
+      verify that the generated network configuration syntax and
+      semantic align with the network intents and constraints.
+
+   CTL-2: Temporal and Data/Context Validity  The framework MUST ensure
+      the agent operates within authorized network maintenance time
+      windows.  Additionally, the agent MUST validate the freshness and
+      integrity of the context and network state and configuration data.
+
+   CTL-3: Access and Permission  The framework MUST provide mechanisms
       to define and enforce fine-grained operational boundaries for
       agents.  This MUST include restricting the agent's operational
       scope to specific network domains/areas, set of devices, protocols
       and tools.  Furthermore, it MUST support YANG node-level access
       control, defining which configuration datastores, YANG data nodes,
       and RPCs an agent is permitted to read or modify.
-
-   CTL-2: Intent Validation and Alignment  The framework MUST ensure the
-      agent validates high-level network intents received from network
-      operators or upstream agents before execution.  The agent MUST
-      verify that the generated network configuration syntax and
-      semantic align with the network intents and constraints.
-
-   CTL-3: Temporal and Data/Context Validity  The framework MUST ensure
-      the agent operates within authorized network maintenance time
-      windows.  Additionally, the agent MUST validate the freshness and
-      integrity of the context and network state and configuration data.
 
    CTL-4: Authorization and Approval  The framework MUST support the
       designation of certain network operations as requiring explicit
@@ -394,12 +394,12 @@ Table of Contents
       channels to route escalation requests sequentially to designated
       personnel.
 
-   CTL-5: Global and Dynamic Boundary Adaptation  The framework MUST
-      support the injection of global coordination control policies
-      across multi-agent environments, and enable dynamic adjustment
-      (e.g., tighten the agent's permissible access from read-write to
-      read-only) of operational bounds based on the network's current
-      operational state.
+   CTL-5: Dynamic Boundary Adaptation  The framework MUST support the
+      injection of global coordination control policies across multi-
+      agent environments, and enable dynamic adjustment (e.g., tighten
+      the agent's permissible access from read-write to read-only) of
+      operational bounds based on the network's current operational
+      state.
 
 5.3.  Intervention Requirements
 
@@ -453,13 +453,13 @@ Table of Contents
          configuration changes made across all three tasks in this
          specific context.
 
-   INT-3: Escalation  The framwork MUST support the mechanism to route
-      operational decisions, anomalies, and conflicts to a higher
-      authority.  An escalation is used when the current level (operator
-      or agent) cannot or should not resolve the situation without
-      supervision.  During an escalation event, the framework MUST
-      preserve the agent's runtime context and its full reasoning
-      provenance trail to enable a seamless handover.
+   INT-3: Escalation  The framwork MUST support the mechanism to allow
+      the agent to route operational decisions, anomalies, and conflicts
+      to a higher authority.  An escalation is used when the current
+      level (operator or agent) cannot or should not resolve the
+      situation without supervision.  During an escalation event, the
+      framework MUST preserve the agent's runtime context and its full
+      reasoning provenance trail to enable a seamless handover.
 
    INT-4: Correction  The supervisor MUST be able to correct an
       autonomous agent failure through any of the following mechanisms:
