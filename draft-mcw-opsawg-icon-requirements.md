@@ -43,6 +43,10 @@ author:
   fullname: Luis. M. Contreras
   organization: Telefonica
   email: luismiguel.contrerasmurillo@telefonica.com
+-
+  fullname: Daniel Voyer
+  organization: Cisco
+  email: davoyer@cisco.com
 
 contributor:
 -
@@ -193,6 +197,16 @@ An Agent Execution Plane is the runtime environment where AI agents operate, inv
 
 The execution plane enforces policy enforcement at multiple critical points throughout the agent execution, including before agent task-processing, pre-action, and before delivering final responses to the operator. The plane also accepts emergency intervention instructions delivered from the agent management plane.
 
+### Function Modules & Tools
+
+As depicted in {{arch}}, agents in the Agent Exection Plane act on the network infrastructure via the Function Modules & Tools layer rather than interacting with network devices directly. Agents invoke this layer to
+translate their reasoning decisions into concrete operational actions on
+the underlying network.
+
+Although represented as a single functional block in {{arch}}, this layer could
+abstract a richer and heterogeneous set of functions and tools. It may encompass, for example, the tool and function-calling interfaces exposed to agents, network management protocol adapters and clients (e.g., NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}}), API gateways, retrieval and knowledge access components (e.g., RAG or vector-database lookups), reusable agent skills, and automation scripts.
+
+The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focus on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Exection Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.
 
 # Requirements {#requirements}
 
