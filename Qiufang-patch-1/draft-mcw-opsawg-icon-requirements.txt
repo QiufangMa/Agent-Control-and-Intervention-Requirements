@@ -5,21 +5,25 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 7 January 2027                                            Cisco
+Expires: 19 February 2027                                          Cisco
                                                                    Q. Wu
                                                                   Huawei
-                                                             6 July 2026
+                                                         L. M. Contreras
+                                                              Telefonica
+                                                                D. Voyer
+                                                                   Cisco
+                                                          18 August 2026
 
 
       Architecture and Requirements for Observability, Control and
                Intervention of Network Management Agents
-                   draft-XXX-icon-requirements-latest
+               draft-mcw-opsawg-icon-requirements-latest
 
 Abstract
 
-   This document defines architecture and a set of requirements for ICON
-   (Observability, Control, and Intervention for Network Management
-   Agents).
+   This document defines architecture and a set of requirements for
+   Observability, Control, and Intervention for Network Management
+   Agents.
 
    It identifies gaps in existing mechanisms and specifies required
    interaction capabilities between Agent supervision systems and
@@ -52,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 19 February 2027.
 
 Copyright Notice
 
@@ -75,10 +79,10 @@ Table of Contents
    3.  Existing Mechanisms for Agent Observability, Control, and
            Intervention
    4.  Architectural Framework for ICON
-     4.1.  Agent Governance Plane
-       4.1.1.  Human Oversight
-       4.1.2.  ICON Client
-     4.2.  ICON Enforcement Component (ICON Server)
+     4.1.  Human Oversight
+     4.2.  Agent Management Plane
+     4.3.  Agent Execution Plane
+       4.3.1.  Function Modules & Tools
    5.  Requirements
      5.1.  Observability Requirements
      5.2.  Control Requirements
@@ -113,14 +117,19 @@ Table of Contents
    unintended configuration changes, policy violations, or cascading
    failures in the network.
 
-   This document defines architecture for ICON — Intervention, Control,
-   and Observability for Network Management Agents.  It also emphasizes
-   essential requirements that supervisors need when deploying agents in
-   real networks for agent observability, control, and intervention.
+   The operational problems, architectural challenges, and technical
+   gaps regarding the observability, control, and intervention of
+   autonomous network management agents are thoroughly detailed in
+   [I-D.wnd-opsawg-icon-ps].  This document builds upon those identified
+   gaps to specify a set of essential requirements that supervisors need
+   when deploying agents in real networks for agent observability,
+   control, and intervention.  Furthermore, it also defines an
+   architecure for ICON — Intervention, Control, and Observability for
+   Network Management Agents.
 
    This document specifies the architecture and communication
    requirements between the agent and the supervision system.  It does
-   not standardized the internal LLM architecture, planning algorithms,
+   not standardize the internal LLM architecture, planning algorithms,
    or training methodologies of the network management agents
    themselves.
 
@@ -136,29 +145,18 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
+   This document uses the following terms defined in
+   [I-D.wnd-opsawg-icon-ps]:
+
+   *  Agent Observability
+
+   *  Intervention
+
+   *  Control
+
+   *  Human Oversight
+
    This document defines the following terms:
-
-   observability:  The visibility into an agent's internal state,
-      decision-making logic, and workflow execution from its external
-      telemetry outputs (e.g., logs, traces, metrics), enabling a
-      supervisor to understand what the agent is doing and why it
-      behaves in a specific manner.
-
-   control:  A preventive mechanism that establishes a deterministic
-      operational boundary for the agent before and during agent
-      execution.  By specifying the agent's behavior scopes, operational
-      constraints, and security baselines, it fundamentally mitigates
-      abnormal behaviors from agents.
-
-   intervention:  A reactive and emergency mechanism to intervene or
-      take control of an agent with boundary violations, anomalies,
-      failures, or risks.  It addresses situations where agent control
-      is insufficient, bypassed, or inapplicable.
-
-   supervisor:  The entity responsible for monitoring, controlling, and
-      intervening in the agent's lifecycle.  A supervisor can be a human
-      operator, an automated high-privilege governance system, or an
-      orchestrator.
 
    context:  The network operational data, interaction history, and
       situational network parameters that allow AI agents to remember
@@ -175,13 +173,13 @@ Table of Contents
 
    Existing telemetry mechanisms are excellent for tracking traditional
    network infrastructure or software which are built for deterministic
-   systems.  However, they are facing severe limitations when applied to
-   AI agents.  For example, existing logging practices only record what
-   action was taken, completely missing why it was taken, including the
-   agent's internal reasoning provenance and confidence scores. existing
-   tracing mechanism designed for static and linear execution path also
-   cannot capture the complex and dynamic execution trajectories of AI
-   agents.
+   systems.  However, as analyzed in [I-D.wnd-opsawg-icon-ps], they are
+   facing severe limitations when applied to AI agents.  For example,
+   existing logging practices only record what action was taken,
+   completely missing why it was taken, including the agent's internal
+   reasoning provenance and confidence scores.  Existing tracing
+   mechanism designed for static and linear execution path also cannot
+   capture the complex and dynamic execution trajectories of AI agents.
 
    Existing AI guardrails primarily operate at static boundaries, such
    as input/output validation and pre-action checks.  These mechanisms
@@ -190,7 +188,7 @@ Table of Contents
    can be anticipated and encoded in static rules.  As AI systems
    increasingly operate in non-deterministic environments, these static
    measures are proving insufficient as they cannot detect, interrupt,
-   and recover from unanticipated behaviours.
+   and recover from unanticipated behaviors.
 
    Although there are some modern agent systems that provide interrupt
    or kill switch capabilities, they remain framework-specific,
@@ -206,56 +204,46 @@ Table of Contents
    architecture defined in Figure 1 serves as the structural foundation
    to derive the requirements specified in Section 5.
 
-       +----------------------------------------------------------+
-       |     Agent Governance Plane                               |
-       |     +-----------------------------------------------+    |
-       |     |             Human Oversight                   |    |
-       |     +-----------------------------------------------+    |
-       |     +-----------------------------------------+          |
-       |     |ICON Client                              |          |
-       |     |  +-------------++-------++------------+ |          |
-       |     |  |Observability||Control||Intervention| |   ...    |
-       |     |  +-----^-------++--+----++------^-----+ |          |
-       |     +--------+-----------+------------+-------+          |
-       +--------------+-----------+------------+------------------+
-                      |           |            |
-                      |           |            | ICON Interface
-                      |           |            |
-       +--------------+-----------v------------v------------------+
-       |              ICON Enforcement Component                  |
-       +----------------------------------------------------------+
-       +----------------------------------------------------------+
-       |    Agent Execution Plane                                 |
-       |    +-----------+    +-----------+       +-----------+    |
-       |    |           |    |           |       |           |    |
-       |    |  Agent 1  <---->  Agent 2  <--...-->  Agent n  |    |
-       |    |           |    |           |       |           |    |
-       |    +-----^-----+    +-----^-----+       +-----^-----+    |
-       |          |                |                   |          |
-       |    +-----v----------------v-------------------v-----+    |
-       |    |              Function Modules & Tools          |    |
-       |    +------------------------------------------------+    |
-       +----------------------------^-----------------------------+
-                                    |
-                                    | Interaction
-                                    |
-       +----------------------------v-----------------------------+
-       |                Network Infrastructure                    |
-       +----------------------------------------------------------+
+     +-----------------------------------------------------+
+     |                    Human Oversight                  |
+     +--------------------------^--------------------------+
+                                |
+                                |
+     +--------------------------v--------------------------+
+     |   Agent Management Plane                            |
+     |                                                     |
+     |   +-------------+    +-------+    +------------+    |
+     |   |Observability|    |Control|    |Intervention|    |
+     |   +-------------+    +-------+    +------------+    |
+     +-----------------------^--+--------------------------+
+                             |  |
+     Agent Observability Data|  |Agent Control & Intervention Signals
+                             |  |
+     +-----------------------+--v--------------------------+
+     |  Agent Execution Plane                              |
+     |  +-----------+    +-----------+       +-----------+ |
+     |  |           |    |           |       |           | |
+     |  |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
+     |  |           |    |           |       |           | |
+     |  +-----^-----+    +-----^-----+       +-----^-----+ |
+     |        |                |                   |       |
+     |  +-----v----------------v-------------------v-----+ |
+     |  |              Function Modules & Tools          | |
+     |  +------------------------------------------------+ |
+     +--------------------------^--------------------------+
+                                |
+                                | Interaction
+                                |
+     +--------------------------v--------------------------+
+     |              Network Infrastructure                 |
+     +-----------------------------------------------------+
 
                         Figure 1: ICON Architecture
 
-4.1.  Agent Governance Plane
-
-   Agent governance layer is the Agent supervision and management layer
-   which is used to manage, monitor, and regulate autonomous AI agents.
-   It might include other technical and operational pilars such as agent
-   identity management, which are out of the scope of ICON.
-
-4.1.1.  Human Oversight
+4.1.  Human Oversight
 
    Human oversight represents the top-level authority of the agent
-   governance.  It provides the post-execution feedback, injects global
+   management.  It provides the post-execution feedback, injects global
    policies, reviews agent escalation requests, and issues high-level
    intervention commands during crises or anomalies.
 
@@ -289,75 +277,89 @@ Table of Contents
          guardrail policies, preventing the recurrence of similar
          behavioral drifts.
 
-   It is worth mentioning that human operators rarely send raw ICON
-   protocol payloads directly to ICON enforcement component.  They could
-   use more flexible and human-friendly formatting such as natural
-   language which is relayed to the ICON client to translate into
-   structured ICON signals for normalization and forwarding.
+   It is worth mentioning that human operators rarely send raw agent
+   control or intervention protocol payloads directly.  They could use
+   more flexible and human-friendly formatting such as natural language
+   which is relayed to the agent management plane to translate into
+   structured control or intervention signals for normalization and
+   distribution.
 
-4.1.2.  ICON Client
+4.2.  Agent Management Plane
 
-   The ICON client is the logical entity which acts on behalf of human
-   operators to monitor and control Agents, and to intervene in their
-   behaviors when necessary.  It is responsible for the multi-Agent
-   observability aggregation, policy control, and emergency intervention
-   logic for heterogeneous multi-Agent autonomous networks.
+   Agent management plane is the Agent assurance capabilities which are
+   used to manage, monitor, and regulate autonomous AI agents on behalf
+   of human operators.  It is logically decoupled from the agent
+   execution plane.  Note that agent management plane might include
+   other technical and operational pillars such as agent lifecycle
+   management, which are out of the scope of this draft.
 
-   *  Observability:  It receives normalized observation streams
-         transmitted from downstream ICON enforcement components.  It
-         provides human operators with comprehensive agent behavioral
-         visibility and identifying operational anomalies or performance
-         drifts.
+   *  Observability:  It receives observation streams transmitted from
+         downstream agent execution plane.  It provides human operators
+         with comprehensive agent behavioral visibility and the ability
+         to identify operational anomalies or performance drifts.
 
-   *  Control:  It acts as the centralized Policy Decision Point (PDP)
-         [RFC3198] that translates human operational guidelines into
-         agent behavioral boundaries, guardrails, or operational
+   *  Policy Control:  It acts as the centralized Policy Decision Point
+         (PDP) [RFC3198] that translates human operational guidelines
+         into agent behavioral boundaries, guardrails, or operational
          constraints.  It dynamically pushes a set of structured rules
-         or policy constraints down to enforcement components.
+         or policy constraints down to agent execution plane.
 
-   *  Intervention:  It hosts the emergency orchestration logic required
-         to reactively instruct agents in response to boundary
-         violations, anomalies, failures, or operational risks.  Upon
-         detecting critical policy violations or receiving manual
+   *  Emergency Intervention:  It hosts the emergency orchestration
+         logic required to reactively instruct agents in response to
+         boundary violations, anomalies, failures, or operational risks.
+         Upon detecting critical policy violations or receiving manual
          override commands from human oversight, it generates specific
          instructions (such as pause or terminate) and pushes them down
          to the enforcement component.  In addition, it also receives
          upstream messages initiated by agents, such as escalation
          requests that proactively require human intervention.
 
-   In practical deployments, ICON client could be embedded within
-   network management systems/OSS, an external Agent governance
-   platform, or a even upper-layer supervisor Agent.
+   In practical deployments, agent management plane could be embedded
+   within network management systems/OSS, an external Agent supervision
+   or management platform, or even an upper-layer supervisor Agent.
 
-4.2.  ICON Enforcement Component (ICON Server)
+4.3.  Agent Execution Plane
 
-   ICON enforcement component serves as the unified bridge between Agent
-   supervision signals and native Agent execution workflows.  It
-   abstracts heterogenous agent runtime and exposes standardized ICON
-   interaction endpoints.
+   An Agent Execution Plane is the runtime environment where AI agents
+   operate, invoke tools, and interact with the network infrastructure.
+   It receives the high-level intent sent from the network operator,
+   performs the LLM reasoning, and takes corresponding actions step-by-
+   step.  It might also route some of the execution to other agent.
+   Each execution step might involve invoking tools, APIs, or agent
+   skills.  After task completion, it collects execution status,
+   operational logs, and network state results, and delivers feedback
+   and reports to the network operator.
 
-   *  Observability Enforcement:  It collects raw runtime observation
-         data from local multi-agent systems, normalizes raw logs,
-         traces and metrics into unified formats, and transmits
-         observation streams upward to the remote ICON client for
-         centralized storage, analysis, and visualization.
+   The execution plane enforces policy enforcement at multiple critical
+   points throughout the agent execution, including before agent task-
+   processing, pre-action, and before delivering final responses to the
+   operator.  The plane also accepts emergency intervention instructions
+   delivered from the agent management plane.
 
-   *  Control Enforcement:  It receives and enforces operational
-         constraint rules or policies pushed by ICON client as a Policy
-         Enforcement Point (PEP) [RFC3198].  Examples include access
-         control for the agent's invocation of tools, and triggers
-         approval request workflows according to the predefined rules.
+4.3.1.  Function Modules & Tools
 
-   *  Intervention Enforcement:  It accepts runtime override
-         instructions delivered from ICON client, and executes
-         corresponding immediate actions on specific running agent
-         instance, such as suspending ongoing agent operation while
-         retaining a snapshot of the execution state and context for
-         recovery, or reversing a specific action taken by the agent.
+   As depicted in Figure 1, agents in the Agent Exection Plane act on
+   the network infrastructure via the Function Modules & Tools layer
+   rather than interacting with network devices directly.  Agents invoke
+   this layer to translate their reasoning decisions into concrete
+   operational actions on the underlying network.
 
-   In practical deployments, ICON enforcement component could be
-   implemented at the AI Agent gateway, or deployed as a runtime wrapper
-   around individual agent instances.
+   Although represented as a single functional block in Figure 1, this
+   layer could abstract a richer and heterogeneous set of functions and
+   tools.  It may encompass, for example, the tool and function-calling
+   interfaces exposed to agents, network management protocol adapters
+   and clients (e.g., NETCONF [RFC6241], RESTCONF [RFC8040]), API
+   gateways, retrieval and knowledge access components (e.g., RAG or
+   vector-database lookups), reusable agent skills, and automation
+   scripts.
+
+   The internal composition, interfaces, and orchestration are
+   implementation specific.  A detailed decomposition of this layer is
+   outside the scope of this document, which focus on the requirements
+   of observability, control, and intervention interactions between the
+   Agent Management Plane and the Agent Exection Plane.  Consequently,
+   this layer is intentionally treated as an abstract entity in this
+   framework.
 
 5.  Requirements
 
@@ -387,33 +389,31 @@ Table of Contents
       configuration rollback rates, token consumption and task
       completion rates.
 
-   OBS-4: Multi-Agent Correlation  The framework SHOULD support logging
-      and trace correlation across multiple agent execution, supporting
-      querying and analysis that correlates agentic actions across
-      multiple network domains, devices, or protocol layers (e.g.,
-      tracking a cross-domain network service provisioning involving
-      multiple autonomous agents).
+   OBS-4: Auditability and Accountability  The framework MUST support
+      immutable audit logging of agent execution, supporting attribution
+      of network outcomes to intent interpretation, LLM inference, or
+      tool/API invocation for post-incident audit and compliance review.
 
 5.2.  Control Requirements
 
-   CTL-1: Access and Permission  The framework MUST provide mechanisms
+   CTL-1: Intent Validation and Alignment  The framework MUST ensure the
+      agent validates high-level network intents received from network
+      operators or upstream agents before execution.  The agent MUST
+      verify that the generated network configuration syntax and
+      semantic align with the network intents and constraints.
+
+   CTL-2: Temporal and Data/Context Validity  The framework MUST ensure
+      the agent operates within authorized network maintenance time
+      windows.  Additionally, the agent MUST validate the freshness and
+      integrity of the context and network state and configuration data.
+
+   CTL-3: Access and Permission  The framework MUST provide mechanisms
       to define and enforce fine-grained operational boundaries for
       agents.  This MUST include restricting the agent's operational
       scope to specific network domains/areas, set of devices, protocols
       and tools.  Furthermore, it MUST support YANG node-level access
       control, defining which configuration datastores, YANG data nodes,
       and RPCs an agent is permitted to read or modify.
-
-   CTL-2: Intent Validation and Alignment  The framework MUST ensure the
-      agent validates high-level network intents received from network
-      operators or upstream agents before execution.  The agent MUST
-      verify that the generated network configuration syntax and
-      semantic align with the network intents and constraints.
-
-   CTL-3: Temporal and Data/Context Validity  The framework MUST ensure
-      the agent operates within authorized network maintenance time
-      windows.  Additionally, the agent MUST validate the freshness and
-      integrity of the context and network state and configuration data.
 
    CTL-4: Authorization and Approval  The framework MUST support the
       designation of certain network operations as requiring explicit
@@ -422,19 +422,12 @@ Table of Contents
       channels to route escalation requests sequentially to designated
       personnel.
 
-   CTL-5: Failure and Liveness  The framework MUST allow to specify
-      fallback behaviors when an agent encounters predefined failure
-      modes (e.g., operation timeout, operation failures).
-      Additionally, the framework MUST enable agents to periodically
-      report their liveness and operational status for health
-      monitoring.
-
-   CTL-6: Global and Dynamic Boundary Adaptation  The framework MUST
-      support the injection of global coordination control policies
-      across multi-agent environments, and enable dynamic adjustment
-      (e.g., tighten the agent's permissible access from read-write to
-      read-only) of operational bounds based on the network's current
-      operational state.
+   CTL-5: Dynamic Boundary Adaptation  The framework MUST support the
+      injection of global coordination control policies across multi-
+      agent environments, and enable dynamic adjustment (e.g., tighten
+      the agent's permissible access from read-write to read-only) of
+      operational bounds based on the network's current operational
+      state.
 
 5.3.  Intervention Requirements
 
@@ -442,9 +435,16 @@ Table of Contents
       immediately stop or redirect a running agent's runtime execution.
       The framework MUST support a temporary operational pause that
       preserves the execution state (e.g., giving human operators time
-      to analyze before deciding further action), as well as a hard stop
-      that terminates execution with or without instant configuration
-      rollback when an agent is actively causing network instability.
+      to analyze before deciding on further action), as well as a hard
+      stop that terminates execution with or without instant
+      configuration rollback when an agent is actively causing network
+      instability.  Emergency intervention operations (e.g., pausing,
+      terminating) MUST be executed independently of the agent's
+      internal LLM reasoning state or responsiveness.  I.e., the
+      framework MUST support out-of-band emergency pause or kill-switch
+      signals in cases where an agent encounters a major failure (e.g.,
+      infinite reasoning loops, deadlocks) or becomes totally
+      unresponsive.
 
    INT-2: Rollback and Recovery  The supervisor MUST be able to reverse
       actions already taken by an agent.  The framework MUST support
@@ -481,13 +481,13 @@ Table of Contents
          configuration changes made across all three tasks in this
          specific context.
 
-   INT-3: Escalation  The framwork MUST support the mechanism to route
-      operational decisions, anomalies, and conflicts to a higher
-      authority.  An escalation is used when the current level (operator
-      or agent) cannot or should not resolve the situation without
-      supervision.  During an escalation event, the framework MUST
-      preserve the agent's runtime context and its full reasoning
-      provenance trail to enable a seamless handover.
+   INT-3: Escalation  The framwork MUST support the mechanism to allow
+      the agent to route operational decisions, anomalies, and conflicts
+      to a higher authority.  An escalation is used when the current
+      level (operator or agent) cannot or should not resolve the
+      situation without supervision.  During an escalation event, the
+      framework MUST preserve the agent's runtime context and its full
+      reasoning provenance trail to enable a seamless handover.
 
    INT-4: Correction  The supervisor MUST be able to correct an
       autonomous agent failure through any of the following mechanisms:
@@ -508,14 +508,6 @@ Table of Contents
          parameters, or execution order before they are applied to the
          network.
 
-   INT-5: Auditability and Accountability  The framework MUST support
-      attribution of failures to responsible entities (e.g., agents,
-      humans, or systems), quantification of consequences (e.g.,
-      resource impact, downtime duration, cost), and traceability from
-      failure through intervention to recovery.  This post-failure
-      capability MUST enable accountability and quantify operational
-      impact.
-
 6.  Security Considerations
 
    This document defines a set of functional requirements for
@@ -535,6 +527,14 @@ Table of Contents
 8.  References
 
 8.1.  Normative References
+
+   [I-D.wnd-opsawg-icon-ps]
+              Wu, Q., Ceccarelli, D., Li, Z., Contreras, L. M., and Q.
+              Ma, "Problem Statement for Observability, Intervention and
+              Control (I&C) in Multi-Agent Autonomous Networks", Work in
+              Progress, Internet-Draft, draft-wnd-opsawg-icon-ps-00, 5
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              wnd-opsawg-icon-ps-00>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -561,9 +561,19 @@ Table of Contents
               Management", RFC 3198, DOI 10.17487/RFC3198, November
               2001, <https://www.rfc-editor.org/rfc/rfc3198>.
 
+   [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
+              and A. Bierman, Ed., "Network Configuration Protocol
+              (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
+              <https://www.rfc-editor.org/rfc/rfc6241>.
+
+   [RFC8040]  Bierman, A., Bjorklund, M., and K. Watsen, "RESTCONF
+              Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
+              <https://www.rfc-editor.org/rfc/rfc8040>.
+
 Acknowledgments
 
-   TODO acknowledge.
+   The authors of this document would also like to thank Benoit Claise,
+   Daniele Ceccarelli for review and comments.
 
 Contributors
 
@@ -599,3 +609,13 @@ Authors' Addresses
    210012
    China
    Email: bill.wu@huawei.com
+
+
+   Luis. M. Contreras
+   Telefonica
+   Email: luismiguel.contrerasmurillo@telefonica.com
+
+
+   Daniel Voyer
+   Cisco
+   Email: davoyer@cisco.com
