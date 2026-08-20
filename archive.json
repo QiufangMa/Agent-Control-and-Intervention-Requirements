@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-07T03:19:27.777581+00:00",
+  "timestamp": "2026-08-20T01:09:43.954659+00:00",
   "repo": "QiufangMa/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -141,6 +141,54 @@
       "createdAt": "2026-07-02T03:50:20Z",
       "updatedAt": "2026-07-02T11:28:07Z",
       "closedAt": "2026-07-02T11:28:07Z",
+      "comments": []
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOScGbnM8AAAABNM20Uw",
+      "title": "Agent Management Plane",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/issues/20",
+      "state": "OPEN",
+      "author": "QiufangMa",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "1. Seek a better term, the current is confusing. AAIF is currently working on a taxonomy document, maybe check that as well.\n2.  Check if the doc has clarified the deployment location of agent management plane",
+      "createdAt": "2026-08-18T10:39:52Z",
+      "updatedAt": "2026-08-18T10:39:52Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOScGbnM8AAAABNM4GYw",
+      "title": "Categorize requirements into several major categories",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/issues/21",
+      "state": "OPEN",
+      "author": "QiufangMa",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Also consider including the additional requirements raised by Dan:\n\u2022\tRisk classification for every action.\n\u2022\tMaximum blast radius: devices, links, services, customers,  and traffic.\n\u2022\tRate limits and concurrency controls.\n\u2022\tSeparation between read, propose, validate, approve and execute roles.\n\u2022\tChange ownership and locking when agents and humans operate concurrently.\n\u2022\tCancellation semantics for queued, running and already completed actions.\n\u2022\tDefined failure behavior when ICON itself is unreachable.\n\u2022\tHigh availability and geographic isolation of the management plane.\n\u2022\tReconciliation between intended state and actual network state.\n\u2022\tAn authoritative clock and event-ordering model.\n\u2022\tBackpressure, sampling and retention for high-volume traces.\n\u2022\tPrivacy classification and redaction for prompts, topology and customer data.\n\u2022\tSoftware-supply-chain identity for models, prompts, tools and skills.\n\u2022\tProtection against an agent falsifying or omitting its own telemetry.\n\u2022\tDetection of an observability collector losing data.\n\u2022\tCross-domain policy conflict resolution.\n\u2022\tDeterministic precedence between human, supervisor, orchestrator and agents.\n",
+      "createdAt": "2026-08-18T10:42:32Z",
+      "updatedAt": "2026-08-18T10:42:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOScGbnM8AAAABNNB8fQ",
+      "title": "Better gap analysis? Should this be in the requirements doc?",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/issues/22",
+      "state": "OPEN",
+      "author": "QiufangMa",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-08-18T11:02:09Z",
+      "updatedAt": "2026-08-18T11:02:09Z",
+      "closedAt": null,
       "comments": []
     }
   ],
@@ -545,7 +593,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-07-06T02:58:33Z",
-      "updatedAt": "2026-07-06T06:04:28Z",
+      "updatedAt": "2026-08-18T03:04:50Z",
       "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
       "baseRefName": "main",
       "baseRefOid": "43a196ed6bc490478b49fc47c54138d90240e0ea",
@@ -607,6 +655,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOScGbnM8AAAABAG9S-g",
+      "title": "incorporate proposed text feedback from Dan, new section for function modules layer",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/pull/19",
+      "state": "OPEN",
+      "author": "QiufangMa",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-08-18T06:58:38Z",
+      "updatedAt": "2026-08-18T06:58:38Z",
+      "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "bca37af08a1f76d827a3c8cf428ccf24df5871af",
+      "headRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "Qiufang-patch-1",
+      "headRefOid": "47667f31162aeae8fb914352178ca69442091474",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
