@@ -1053,7 +1053,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ma, et al.</td>
-<td class="center">Expires 19 February 2027</td>
+<td class="center">Expires 28 February 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-mcw-opsawg-icon-requirements-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-18" class="published">18 August 2026</time>
+<time datetime="2026-08-27" class="published">27 August 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-19">19 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-02-28">28 February 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1131,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1431,18 +1431,18 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-agent-execution-plane" class="section-name selfRef">Agent Execution Plane</a>
         </h3>
 <p id="section-4.3-1">An Agent Execution Plane is the runtime environment where AI agents operate, invoke tools, and interact with the network infrastructure. It receives the high-level intent sent from the network operator, performs the LLM reasoning, and takes corresponding actions step-by-step. It might also route some of the execution to other agent. Each execution step might involve invoking tools, APIs, or agent skills. After task completion, it collects execution status, operational logs, and network state results, and delivers feedback and reports to the network operator.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.3-2">The execution plane enforces policy enforcement at multiple critical points throughout the agent execution, including before agent task-processing, pre-action, and before delivering final responses to the operator. The plane also accepts emergency intervention instructions delivered from the agent management plane.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">The execution plane enforces policy at multiple critical points throughout the agent execution, including before agent task-processing, pre-action, and before delivering final responses to the operator. The plane also accepts emergency intervention instructions delivered from the agent management plane.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
 <div id="function-modules-tools">
 <section id="section-4.3.1">
           <h4 id="name-function-modules-tools">
 <a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-function-modules-tools" class="section-name selfRef">Function Modules &amp; Tools</a>
           </h4>
-<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Exection Plane act on the network infrastructure via the Function Modules &amp; Tools layer rather than interacting with network devices directly. Agents invoke this layer to
+<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Execution Plane act on the network infrastructure via the Function Modules &amp; Tools layer rather than interacting with network devices directly. Agents invoke this layer to
 translate their reasoning decisions into concrete operational actions on
 the underlying network.<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.3.1-2">Although represented as a single functional block in <a href="#arch" class="auto internal xref">Figure 1</a>, this layer could
 abstract a richer and heterogeneous set of functions and tools. It may encompass, for example, the tool and function-calling interfaces exposed to agents, network management protocol adapters and clients (e.g., NETCONF <span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span>, RESTCONF <span>[<a href="#RFC8040" class="cite xref">RFC8040</a>]</span>), API gateways, retrieval and knowledge access components (e.g., RAG or vector-database lookups), reusable agent skills, and automation scripts.<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.3.1-3">The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focus on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Exection Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-3">The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focuses on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Execution Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1686,7 +1686,7 @@ Based on the severity and impact of the failure, the rollback granularities <spa
 <dl class="references">
 <dt id="I-D.wmz-nmrg-agent-ndt-arch">[I-D.wmz-nmrg-agent-ndt-arch]</dt>
         <dd>
-<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Zhou, C.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Han, S.</span>, and <span class="refAuthor">Y. Hong</span>, <span class="refTitle">"Network Digital Twin and Agentic AI based Architecture for AI driven Network Operations"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-04</span>, <time datetime="2026-05-21" class="refDate">21 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wmz-nmrg-agent-ndt-arch-04">https://datatracker.ietf.org/doc/html/draft-wmz-nmrg-agent-ndt-arch-04</a>&gt;</span>. </dd>
+<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Zhou, C.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Han, S.</span>, and <span class="refAuthor">Y. Hong</span>, <span class="refTitle">"Network Digital Twin and Agentic AI based Architecture for AI driven Network Operations"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-05</span>, <time datetime="2026-08-19" class="refDate">19 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wmz-nmrg-agent-ndt-arch-05">https://datatracker.ietf.org/doc/html/draft-wmz-nmrg-agent-ndt-arch-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3198">[RFC3198]</dt>
         <dd>

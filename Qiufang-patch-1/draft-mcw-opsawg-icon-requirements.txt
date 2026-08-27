@@ -5,14 +5,14 @@
 Network Working Group                                         Q. Ma, Ed.
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 19 February 2027                                          Cisco
+Expires: 28 February 2027                                          Cisco
                                                                    Q. Wu
                                                                   Huawei
                                                          L. M. Contreras
                                                               Telefonica
                                                                 D. Voyer
                                                                    Cisco
-                                                          18 August 2026
+                                                          27 August 2026
 
 
       Architecture and Requirements for Observability, Control and
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 February 2027.
+   This Internet-Draft will expire on 28 February 2027.
 
 Copyright Notice
 
@@ -330,15 +330,15 @@ Table of Contents
    operational logs, and network state results, and delivers feedback
    and reports to the network operator.
 
-   The execution plane enforces policy enforcement at multiple critical
-   points throughout the agent execution, including before agent task-
+   The execution plane enforces policy at multiple critical points
+   throughout the agent execution, including before agent task-
    processing, pre-action, and before delivering final responses to the
    operator.  The plane also accepts emergency intervention instructions
    delivered from the agent management plane.
 
 4.3.1.  Function Modules & Tools
 
-   As depicted in Figure 1, agents in the Agent Exection Plane act on
+   As depicted in Figure 1, agents in the Agent Execution Plane act on
    the network infrastructure via the Function Modules & Tools layer
    rather than interacting with network devices directly.  Agents invoke
    this layer to translate their reasoning decisions into concrete
@@ -355,9 +355,9 @@ Table of Contents
 
    The internal composition, interfaces, and orchestration are
    implementation specific.  A detailed decomposition of this layer is
-   outside the scope of this document, which focus on the requirements
+   outside the scope of this document, which focuses on the requirements
    of observability, control, and intervention interactions between the
-   Agent Management Plane and the Agent Exection Plane.  Consequently,
+   Agent Management Plane and the Agent Execution Plane.  Consequently,
    this layer is intentionally treated as an abstract entity in this
    framework.
 
@@ -551,9 +551,9 @@ Table of Contents
               Wu, Q., Zhou, C., Contreras, L. M., Han, S., and Y. Hong,
               "Network Digital Twin and Agentic AI based Architecture
               for AI driven Network Operations", Work in Progress,
-              Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-04, 21 May
-              2026, <https://datatracker.ietf.org/doc/html/draft-wmz-
-              nmrg-agent-ndt-arch-04>.
+              Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-05, 19
+              August 2026, <https://datatracker.ietf.org/doc/html/draft-
+              wmz-nmrg-agent-ndt-arch-05>.
 
    [RFC3198]  Westerinen, A., Schnizlein, J., Strassner, J., Scherling,
               M., Quinn, B., Herzog, S., Huynh, A., Carlson, M., Perry,
