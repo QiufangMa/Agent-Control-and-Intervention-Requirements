@@ -195,18 +195,18 @@ In practical deployments, agent management plane could be embedded within networ
 
 An Agent Execution Plane is the runtime environment where AI agents operate, invoke tools, and interact with the network infrastructure. It receives the high-level intent sent from the network operator, performs the LLM reasoning, and takes corresponding actions step-by-step. It might also route some of the execution to other agent. Each execution step might involve invoking tools, APIs, or agent skills. After task completion, it collects execution status, operational logs, and network state results, and delivers feedback and reports to the network operator.
 
-The execution plane enforces policy enforcement at multiple critical points throughout the agent execution, including before agent task-processing, pre-action, and before delivering final responses to the operator. The plane also accepts emergency intervention instructions delivered from the agent management plane.
+The execution plane enforces policy at multiple critical points throughout the agent execution, including before agent task-processing, pre-action, and before delivering final responses to the operator. The plane also accepts emergency intervention instructions delivered from the agent management plane.
 
 ### Function Modules & Tools
 
-As depicted in {{arch}}, agents in the Agent Exection Plane act on the network infrastructure via the Function Modules & Tools layer rather than interacting with network devices directly. Agents invoke this layer to
+As depicted in {{arch}}, agents in the Agent Execution Plane act on the network infrastructure via the Function Modules & Tools layer rather than interacting with network devices directly. Agents invoke this layer to
 translate their reasoning decisions into concrete operational actions on
 the underlying network.
 
 Although represented as a single functional block in {{arch}}, this layer could
 abstract a richer and heterogeneous set of functions and tools. It may encompass, for example, the tool and function-calling interfaces exposed to agents, network management protocol adapters and clients (e.g., NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}}), API gateways, retrieval and knowledge access components (e.g., RAG or vector-database lookups), reusable agent skills, and automation scripts.
 
-The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focus on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Exection Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.
+The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focuses on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Execution Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.
 
 # Requirements {#requirements}
 
