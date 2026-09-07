@@ -43,6 +43,10 @@ author:
   fullname: Luis. M. Contreras
   organization: Telefonica
   email: luismiguel.contrerasmurillo@telefonica.com
+-
+  fullname: Daniel Voyer
+  organization: Cisco
+  email: davoyer@cisco.com
 
 contributor:
 -
@@ -189,10 +193,25 @@ In practical deployments, agent management plane could be embedded within networ
 
 ## Agent Execution Plane
 
-An Agent Execution Plane is the runtime environment where AI agents operate, invoke tools, and interact with the network infrastructure. It receives the high-level intent sent from the network operator, performs the LLM reasoning, and takes corresponding actions step-by-step. It might also route some of the execution to other agent. Each execution step might involve invoking tools, APIs, or agent skills. After task completion, it collects execution status, operational logs, and network state results, and delivers feedback and reports to the network operator.
+The Agent Execution Plane is the runtime environment in which AI agents operate, perform reasoning and planning, collaborate with other agents, and invoke capabilities exposed through the Function Modules & Tools layer described in {{functions}}. Through that layer, agents obtain network information and translate their reasoning outcomes into operations on the network infrastructure.
 
-The execution plane enforces policy enforcement at multiple critical points throughout the agent execution, including before agent task-processing, pre-action, and before delivering final responses to the operator. The plane also accepts emergency intervention instructions delivered from the agent management plane.
+The Agent Execution Plane receives high-level intents originating from network operators or upstream agents and executes the corresponding tasks step by step. An agent may delegate parts of a task to other agents. Each execution step may involve invoking tools, function calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the Function Modules & Tools layer.
 
+During and after task execution, the Agent Execution Plane collects execution status, operational logs, tool invocation records, and resulting network observations. It provides the corresponding agent observability data to the Agent Management Plane for supervision.
+
+The Agent Execution Plane supports policy enforcement at critical points throughout task execution, including before task processing, before tool invocation or network actions, and before delivering a final response. It also accepts and applies Agent Control and Intervention Signals received from the Agent Management Plane.
+
+
+### Function Modules & Tools {#functions}
+
+As depicted in {{arch}}, agents in the Agent Execution Plane act on the network infrastructure via the Function Modules & Tools layer rather than interacting with network devices directly. Agents invoke this layer to
+translate their reasoning decisions into concrete operational actions on
+the underlying network.
+
+Although represented as a single functional block in {{arch}}, this layer could
+abstract a richer and heterogeneous set of functions and tools. It may encompass, for example, the tool and function-calling interfaces exposed to agents, network management protocol adapters and clients (e.g., NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}}), API gateways, retrieval and knowledge access components (e.g., RAG or vector-database lookups), reusable agent skills, and automation scripts.
+
+The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focuses on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Execution Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.
 
 # Requirements {#requirements}
 
