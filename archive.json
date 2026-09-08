@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-30T03:51:04.313386+00:00",
+  "timestamp": "2026-09-08T03:14:25.681996+00:00",
   "repo": "QiufangMa/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -661,24 +661,26 @@
       "id": "PR_kwDOScGbnM8AAAABAG9S-g",
       "title": "incorporate proposed text feedback from Dan, new section for function modules layer",
       "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/pull/19",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "QiufangMa",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-08-18T06:58:38Z",
-      "updatedAt": "2026-08-27T08:10:00Z",
+      "updatedAt": "2026-09-07T10:32:07Z",
       "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
       "baseRefName": "main",
       "baseRefOid": "bca37af08a1f76d827a3c8cf428ccf24df5871af",
       "headRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
       "headRefName": "Qiufang-patch-1",
       "headRefOid": "ffa3e592f246502a980179ce80fe3d7e451f7a7f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-09-07T10:00:43Z",
+      "mergedAt": "2026-09-07T10:00:43Z",
+      "mergedBy": "QiufangMa",
+      "mergeCommit": {
+        "oid": "878f8451ec697a0aef7c343092c0056b83c17ae5"
+      },
       "comments": [],
       "reviews": []
     }
