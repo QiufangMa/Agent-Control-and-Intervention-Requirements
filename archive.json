@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-08T03:14:25.681996+00:00",
+  "timestamp": "2026-09-10T03:16:23.906369+00:00",
   "repo": "QiufangMa/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -681,6 +681,32 @@
       "mergeCommit": {
         "oid": "878f8451ec697a0aef7c343092c0056b83c17ae5"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOScGbnM8AAAABCxTs2A",
+      "title": "rewrite observability requirements",
+      "url": "https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements/pull/23",
+      "state": "OPEN",
+      "author": "QiufangMa",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-09-09T03:47:56Z",
+      "updatedAt": "2026-09-09T03:47:56Z",
+      "baseRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "878f8451ec697a0aef7c343092c0056b83c17ae5",
+      "headRepository": "QiufangMa/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "Qiufang-patch-1",
+      "headRefOid": "c882fdb64ed9367a9459a3d82434dcd83190979f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
